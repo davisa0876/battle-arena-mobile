@@ -28,7 +28,7 @@ Set `EXPO_PUBLIC_API_BASE_URL`:
 
 - Android emulator: `http://10.0.2.2:8000`
 - iOS simulator: `http://localhost:8000`
-- Physical device: `http://<LAN-IP>:8000` (infra `BIND_ADDRESS=0.0.0.0`)
+- Physical device: `http://<LAN-IP>:8000` (infra `API_BIND_ADDRESS=0.0.0.0`; never expose Postgres/Redis)
 
 ## Commands
 

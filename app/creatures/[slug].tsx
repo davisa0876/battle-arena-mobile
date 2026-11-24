@@ -1,18 +1,22 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import type { Creature } from '@/src/features/creatures/types/creature'
 import { useTranslation } from 'react-i18next'
 
 import { CreatureImage } from '@/src/features/creatures/components/CreatureImage'
 import { StatBar } from '@/src/features/creatures/components/StatBar'
 import { useCreatureDetail } from '@/src/features/creatures/hooks/useCreatureDetail'
 import { Screen } from '@/src/shared/components/Screen'
+import { formatHeight, formatWeight } from '@/src/shared/lib/formatters/creatures'
+import { currentAppLanguage } from '@/src/i18n'
 import { colors } from '@/src/theme/colors'
 import { spacing } from '@/src/theme/spacing'
 
 export default function CreatureDetailScreen() {
   const { slug = '' } = useLocalSearchParams<{ slug: string }>()
   const { t } = useTranslation()
+  const locale = currentAppLanguage()
   const [retryToken, setRetryToken] = useState(0)
   const state = useCreatureDetail(typeof slug === 'string' ? slug : slug[0] ?? '', retryToken)
 
@@ -57,17 +61,13 @@ export default function CreatureDetailScreen() {
             <View style={styles.metric}>
               <Text style={styles.metricLabel}>{t('creatures.detail.height')}</Text>
               <Text style={styles.metricValue}>
-                {state.creature.height_cm == null
-                  ? t('creatures.detail.unavailable')
-                  : `${(state.creature.height_cm / 100).toFixed(2)} m`}
+                {formatHeight(state.creature.height_cm, t('creatures.detail.unavailable'), locale)}
               </Text>
             </View>
             <View style={styles.metric}>
               <Text style={styles.metricLabel}>{t('creatures.detail.weight')}</Text>
               <Text style={styles.metricValue}>
-                {state.creature.weight_g == null
-                  ? t('creatures.detail.unavailable')
-                  : `${(state.creature.weight_g / 1000).toFixed(1)} kg`}
+                {formatWeight(state.creature.weight_g, t('creatures.detail.unavailable'), locale)}
               </Text>
             </View>
           </View>
@@ -85,9 +85,52 @@ export default function CreatureDetailScreen() {
             value={state.creature.base_stats.special_defense}
           />
           <StatBar label={t('creatures.stats.speed')} value={state.creature.base_stats.speed} />
+
+          {(state.creature.evolutions?.length ?? 0) > 0 && (
+            <View style={styles.evolutions}>
+              <Text style={styles.statsTitle}>{t('creatures.detail.evolutionsTitle')}</Text>
+              <Text style={styles.evolutionsHint}>{t('creatures.detail.evolutionsDescription')}</Text>
+              {state.creature.evolutions?.map((evolution) => (
+                <EvolutionRow key={evolution.id} evolution={evolution} />
+              ))}
+            </View>
+          )}
         </View>
       )}
     </Screen>
+  )
+}
+
+function EvolutionRow({ evolution }: { evolution: Creature }) {
+  const { t } = useTranslation()
+
+  return (
+    <View>
+      <Pressable
+        onPress={() => router.push(`/creatures/${evolution.slug}`)}
+        style={styles.evolutionCard}
+      >
+        <CreatureImage
+          name={evolution.name}
+          imageUrl={evolution.image_url}
+          imageRef={evolution.image_ref}
+          style={styles.evolutionImage}
+        />
+        <View style={styles.evolutionMeta}>
+          <Text style={styles.evolutionStage}>
+            {t('creatures.detail.evolutionStage', { stage: evolution.evolution_stage ?? '—' })}
+          </Text>
+          <Text style={styles.evolutionName}>{evolution.name}</Text>
+        </View>
+      </Pressable>
+      {(evolution.evolutions?.length ?? 0) > 0 && (
+        <View style={styles.evolutionNested}>
+          {evolution.evolutions?.map((child) => (
+            <EvolutionRow key={child.id} evolution={child} />
+          ))}
+        </View>
+      )}
+    </View>
   )
 }
 
@@ -190,5 +233,50 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     marginTop: spacing.sm,
+  },
+  evolutions: {
+    gap: spacing.md,
+    marginTop: spacing.md,
+  },
+  evolutionsHint: {
+    color: colors.textMuted,
+    fontSize: 13,
+  },
+  evolutionCard: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 14,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.md,
+    padding: spacing.md,
+  },
+  evolutionImage: {
+    height: 72,
+    width: 72,
+  },
+  evolutionMeta: {
+    flex: 1,
+    gap: spacing.xs,
+  },
+  evolutionStage: {
+    color: colors.textMuted,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  evolutionName: {
+    color: colors.text,
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  evolutionNested: {
+    borderLeftColor: colors.border,
+    borderLeftWidth: 1,
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+    paddingLeft: spacing.md,
   },
 })

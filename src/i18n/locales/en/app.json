@@ -64,7 +64,10 @@
       "height": "Height",
       "weight": "Weight",
       "baseStats": "Base stats",
-      "unavailable": "—"
+      "unavailable": "—",
+      "evolutionsTitle": "Evolutions",
+      "evolutionsDescription": "Possible next forms for this creature.",
+      "evolutionStage": "Stage {{stage}}"
     },
     "stats": {
       "hp": "HP",
@@ -77,6 +80,10 @@
     "image": {
       "loading": "Loading image...",
       "fallback": "No artwork available for {{name}}"
+    },
+    "units": {
+      "meters": "{{value}} m",
+      "kilograms": "{{value}} kg"
     }
   },
   "settings": {
@@ -93,6 +100,7 @@
     "detailLoad": "Unable to load this creature.",
     "missingSlug": "Missing creature slug.",
     "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL is not configured",
-    "apiOffline": "Unable to connect to the API"
+    "apiOffline": "Unable to connect to the API",
+    "httpStatus": "API request failed with status {{status}}"
   }
 }

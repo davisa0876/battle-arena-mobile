@@ -33,7 +33,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     });
 
     if (!response.ok) {
-      throw new ApiError(`API request failed with status ${response.status}`, response.status);
+      throw new ApiError(i18n.t('errors.httpStatus', { status: response.status }), response.status);
     }
 
     const contentType = response.headers.get('content-type');

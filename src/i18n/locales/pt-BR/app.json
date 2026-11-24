@@ -64,7 +64,10 @@
       "height": "Altura",
       "weight": "Peso",
       "baseStats": "Atributos base",
-      "unavailable": "—"
+      "unavailable": "—",
+      "evolutionsTitle": "Evoluções",
+      "evolutionsDescription": "Próximas formas possíveis desta criatura.",
+      "evolutionStage": "Nível {{stage}}"
     },
     "stats": {
       "hp": "HP",
@@ -77,6 +80,10 @@
     "image": {
       "loading": "Carregando imagem...",
       "fallback": "Nenhuma arte disponível para {{name}}"
+    },
+    "units": {
+      "meters": "{{value}} m",
+      "kilograms": "{{value}} kg"
     }
   },
   "settings": {
@@ -93,6 +100,7 @@
     "detailLoad": "Não foi possível carregar esta criatura.",
     "missingSlug": "Slug da criatura ausente.",
     "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL não está configurado",
-    "apiOffline": "Não foi possível conectar à API"
+    "apiOffline": "Não foi possível conectar à API",
+    "httpStatus": "A requisição à API falhou com o status {{status}}"
   }
 }
