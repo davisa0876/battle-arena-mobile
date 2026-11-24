@@ -1,0 +1,11 @@
+---
+description: Mobile validation standards
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Mobile Testing
+
+- Always run `npm run typecheck` and `npm run lint` after substantive changes.
+- Prefer API mocks for catalog/detail logic when adding automated tests.
+- State clearly if Expo runtime/emulator was not verified.

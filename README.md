@@ -1,40 +1,57 @@
 # Battle Arena Mobile
 
-Phase 1 mobile client built with TypeScript, Expo SDK 54, React Native, and Expo Router.
+Expo React Native client for Battle Arena.
+
+## Stack
+
+- Expo SDK 54 + Expo Router
+- TypeScript
+- i18next + expo-localization + AsyncStorage
+- expo-image for catalog artwork
+
+## Features (this phase)
+
+- Home, Creatures catalog, Settings (language)
+- Five languages: `en`, `fr`, `pt-BR`, `it`, `es`
+- Catalog/detail from Laravel API with remote `image_url`
+- Neutral placeholder when artwork is missing/fails
 
 ## Setup
 
 ```bash
 npm install
-copy .env.example .env
+cp .env.example .env
 npm start
 ```
 
-Edit `.env` for the device running the app. Expo exposes variables prefixed with
-`EXPO_PUBLIC_` to client code, so never store secrets in them. Restart Expo after changing the file.
+Set `EXPO_PUBLIC_API_BASE_URL`:
 
-## Mobile API access
-
-The home screen checks `GET /api/health` on startup and shows Connecting, Connected, or Offline.
-When offline, use Retry to make another request.
-
-Set `EXPO_PUBLIC_API_BASE_URL` to the host as seen by the mobile device:
-
-- Android Studio emulator: `http://10.0.2.2:8000`
+- Android emulator: `http://10.0.2.2:8000`
 - iOS simulator: `http://localhost:8000`
-- Physical device: `http://<computer-lan-ip>:8000`
-
-For a physical device, the phone and development computer must be on the same network. The API
-must listen on `0.0.0.0` (not only `127.0.0.1`), and the host firewall must allow port 8000.
-Plain HTTP can be used during local Expo development; use HTTPS for deployed environments.
+- Physical device: `http://<LAN-IP>:8000` (infra `BIND_ADDRESS=0.0.0.0`)
 
 ## Commands
 
 ```bash
-npm start
-npm run android
-npm run ios
-npm run web
-npm run lint
 npm run typecheck
+npm run lint
+npm start
 ```
+
+## i18n
+
+Translations live in `src/i18n/locales/{en,fr,pt-BR,it,es}/app.json`.
+
+Language preference persists in AsyncStorage. Device locale is used on first launch.
+
+## Image note
+
+Remote PokéAPI artwork URLs are for local demo only. They are not downloaded into the repo or S3. Replace with original/licensed art later.
+
+## Structure
+
+- `app/` thin Expo Router screens
+- `src/features/` creatures + home logic
+- `src/shared/` API client and UI primitives
+- `src/theme/` design tokens
+- `.cursor/rules/` persistent project rules

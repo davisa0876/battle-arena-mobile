@@ -1,0 +1,98 @@
+{
+  "common": {
+    "appName": "Battle Arena",
+    "retry": "Réessayer",
+    "loading": "Chargement...",
+    "comingSoon": "Bientôt disponible",
+    "available": "Disponible"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "creatures": "Créatures",
+    "settings": "Réglages",
+    "brandAlt": "Logo Battle Arena",
+    "back": "Retour"
+  },
+  "home": {
+    "phase": "Refonte",
+    "heroTitle": "Battle Arena",
+    "heroSubtitle": "Construisez votre équipe. Maîtrisez votre stratégie. Entrez dans l'arène.",
+    "modesEyebrow": "Choisissez votre voie",
+    "modesTitle": "L'arène prend forme",
+    "modes": {
+      "solo": {
+        "title": "Combat solo",
+        "description": "Testez votre équipe contre des adversaires d'arène exigeants."
+      },
+      "online": {
+        "title": "Combat en ligne",
+        "description": "Affrontez des joueurs du monde entier en temps réel."
+      },
+      "collection": {
+        "title": "Collection de créatures",
+        "description": "Parcourez le catalogue de créatures importé et étudiez les stats de base."
+      }
+    },
+    "status": {
+      "label": "État du système",
+      "connecting": "Connexion...",
+      "connected": "API connectée",
+      "offline": "API hors ligne"
+    }
+  },
+  "creatures": {
+    "catalog": {
+      "eyebrow": "Collection de créatures",
+      "title": "Catalogue",
+      "description": "Parcourez les créatures enregistrées dans Battle Arena. La recherche et les filtres utilisent l'API Laravel, jamais le fournisseur externe.",
+      "loading": "Chargement des créatures...",
+      "errorTitle": "Impossible de charger le catalogue",
+      "emptyTitle": "Aucune créature trouvée",
+      "emptyDescription": "Essayez une autre recherche, effacez les filtres ou importez le catalogue de départ dans l'API.",
+      "resultsSummary": "Page {{page}} sur {{lastPage}} · {{total}} créatures",
+      "searchLabel": "Rechercher par nom",
+      "searchPlaceholder": "ex. Emberfang",
+      "typeLabel": "Type",
+      "allTypes": "Tous les types",
+      "clearAction": "Effacer",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "detail": {
+      "loading": "Chargement de la créature...",
+      "eyebrow": "Détail de la créature",
+      "height": "Taille",
+      "weight": "Poids",
+      "baseStats": "Stats de base",
+      "unavailable": "—"
+    },
+    "stats": {
+      "hp": "PV",
+      "attack": "Attaque",
+      "defense": "Défense",
+      "special_attack": "Attaque spéciale",
+      "special_defense": "Défense spéciale",
+      "speed": "Vitesse"
+    },
+    "image": {
+      "loading": "Chargement de l'image...",
+      "fallback": "Aucune illustration disponible pour {{name}}"
+    }
+  },
+  "settings": {
+    "title": "Réglages",
+    "eyebrow": "Centre de commande",
+    "languageTitle": "Langue",
+    "languageDescription": "Choisissez la langue de l'application. Votre choix est enregistré sur cet appareil et envoyé à l'API.",
+    "systemDefault": "Détectée depuis l'appareil quand aucune préférence n'est enregistrée.",
+    "currentLanguage": "Langue actuelle : {{language}}"
+  },
+  "errors": {
+    "catalogLoad": "Impossible de charger le catalogue des créatures.",
+    "notFound": "Créature introuvable.",
+    "detailLoad": "Impossible de charger cette créature.",
+    "missingSlug": "Slug de créature manquant.",
+    "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL n'est pas configuré",
+    "apiOffline": "Impossible de se connecter à l'API"
+  }
+}

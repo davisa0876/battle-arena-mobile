@@ -1,0 +1,11 @@
+---
+description: Mobile design tokens
+globs: "{src/theme/**/*.ts,app/**/*.{ts,tsx},src/**/*.{ts,tsx}}"
+alwaysApply: false
+---
+
+# Mobile Design System
+
+- Colors from `src/theme/colors.ts`: background `#0B0F1B`, surface `#151C2B`, border `#303C52`, ember `#FF6542`, electric `#27C9EC`, gold `#FFB84D`.
+- Use brand logos under `assets/brand`.
+- Dark cinematic UI; no Pokémon brand symbols from mockups.

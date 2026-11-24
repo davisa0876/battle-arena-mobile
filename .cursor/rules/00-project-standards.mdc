@@ -1,0 +1,13 @@
+---
+description: Core Battle Arena mobile standards
+alwaysApply: true
+---
+
+# Battle Arena Mobile Standards
+
+- Keep Expo Router as the only navigation system.
+- No browser-only APIs (`window`, `localStorage`, DOM CSS).
+- All visible text uses i18n (`en/fr/pt-BR/it/es`).
+- Persist language with AsyncStorage; seed from expo-localization.
+- Do not invent battle/auth features in this phase.
+- Do not claim emulator verification without actually running it.

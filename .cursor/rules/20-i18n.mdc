@@ -1,0 +1,12 @@
+---
+description: Mobile internationalization rules
+globs: "{app/**/*.{ts,tsx},src/**/*.{ts,tsx},src/i18n/**/*.json}"
+alwaysApply: false
+---
+
+# Mobile i18n
+
+- Translation keys should stay consistent with web terminology.
+- Language selector must persist across restarts.
+- Update every locale file when adding a key.
+- English is fallback for unsupported device locales.

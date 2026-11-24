@@ -1,0 +1,98 @@
+{
+  "common": {
+    "appName": "Battle Arena",
+    "retry": "Riprova",
+    "loading": "Caricamento...",
+    "comingSoon": "In arrivo",
+    "available": "Disponibile"
+  },
+  "navigation": {
+    "home": "Home",
+    "creatures": "Creature",
+    "settings": "Impostazioni",
+    "brandAlt": "Logo Battle Arena",
+    "back": "Indietro"
+  },
+  "home": {
+    "phase": "Redesign",
+    "heroTitle": "Battle Arena",
+    "heroSubtitle": "Costruisci la tua squadra. Domina la strategia. Entra nell'arena.",
+    "modesEyebrow": "Scegli il tuo percorso",
+    "modesTitle": "L'arena prende forma",
+    "modes": {
+      "solo": {
+        "title": "Battaglia in solitaria",
+        "description": "Metti alla prova la squadra contro avversari impegnativi."
+      },
+      "online": {
+        "title": "Battaglia online",
+        "description": "Affronta giocatori da tutto il mondo in tempo reale."
+      },
+      "collection": {
+        "title": "Collezione creature",
+        "description": "Sfoglia il catalogo creature importato e studia le statistiche base."
+      }
+    },
+    "status": {
+      "label": "Stato sistema",
+      "connecting": "Connessione...",
+      "connected": "API connessa",
+      "offline": "API offline"
+    }
+  },
+  "creatures": {
+    "catalog": {
+      "eyebrow": "Collezione creature",
+      "title": "Catalogo",
+      "description": "Sfoglia le creature salvate in Battle Arena. Ricerca e filtri usano l'API Laravel, mai il provider esterno.",
+      "loading": "Caricamento creature...",
+      "errorTitle": "Impossibile caricare il catalogo",
+      "emptyTitle": "Nessuna creatura trovata",
+      "emptyDescription": "Prova un'altra ricerca, cancella i filtri o importa il catalogo iniziale nell'API.",
+      "resultsSummary": "Pagina {{page}} di {{lastPage}} · {{total}} creature",
+      "searchLabel": "Cerca per nome",
+      "searchPlaceholder": "es. Emberfang",
+      "typeLabel": "Tipo",
+      "allTypes": "Tutti i tipi",
+      "clearAction": "Cancella",
+      "previous": "Precedente",
+      "next": "Successiva"
+    },
+    "detail": {
+      "loading": "Caricamento creatura...",
+      "eyebrow": "Dettaglio creatura",
+      "height": "Altezza",
+      "weight": "Peso",
+      "baseStats": "Statistiche base",
+      "unavailable": "—"
+    },
+    "stats": {
+      "hp": "PS",
+      "attack": "Attacco",
+      "defense": "Difesa",
+      "special_attack": "Attacco speciale",
+      "special_defense": "Difesa speciale",
+      "speed": "Velocità"
+    },
+    "image": {
+      "loading": "Caricamento immagine...",
+      "fallback": "Nessuna illustrazione disponibile per {{name}}"
+    }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "eyebrow": "Centro comando",
+    "languageTitle": "Lingua",
+    "languageDescription": "Scegli la lingua dell'app. La scelta viene salvata su questo dispositivo e inviata all'API.",
+    "systemDefault": "Rilevata dal dispositivo quando non esiste una preferenza salvata.",
+    "currentLanguage": "Lingua attuale: {{language}}"
+  },
+  "errors": {
+    "catalogLoad": "Impossibile caricare il catalogo delle creature.",
+    "notFound": "Creatura non trovata.",
+    "detailLoad": "Impossibile caricare questa creatura.",
+    "missingSlug": "Slug creatura mancante.",
+    "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL non è configurato",
+    "apiOffline": "Impossibile connettersi all'API"
+  }
+}

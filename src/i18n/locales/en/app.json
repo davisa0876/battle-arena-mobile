@@ -1,0 +1,98 @@
+{
+  "common": {
+    "appName": "Battle Arena",
+    "retry": "Retry",
+    "loading": "Loading...",
+    "comingSoon": "Coming Soon",
+    "available": "Available"
+  },
+  "navigation": {
+    "home": "Home",
+    "creatures": "Creatures",
+    "settings": "Settings",
+    "brandAlt": "Battle Arena logo",
+    "back": "Back"
+  },
+  "home": {
+    "phase": "Phase redesign",
+    "heroTitle": "Battle Arena",
+    "heroSubtitle": "Build your team. Master your strategy. Enter the arena.",
+    "modesEyebrow": "Choose your path",
+    "modesTitle": "The arena is taking shape",
+    "modes": {
+      "solo": {
+        "title": "Solo Battle",
+        "description": "Test your team against challenging arena opponents."
+      },
+      "online": {
+        "title": "Online Battle",
+        "description": "Face players from around the world in real time."
+      },
+      "collection": {
+        "title": "Creature Collection",
+        "description": "Browse the imported creature catalog and study base stats."
+      }
+    },
+    "status": {
+      "label": "System Status",
+      "connecting": "Connecting...",
+      "connected": "API Connected",
+      "offline": "API Offline"
+    }
+  },
+  "creatures": {
+    "catalog": {
+      "eyebrow": "Creature Collection",
+      "title": "Catalog",
+      "description": "Browse creatures persisted in Battle Arena. Search and filters hit the Laravel API, never the external data provider.",
+      "loading": "Loading creatures...",
+      "errorTitle": "Could not load the catalog",
+      "emptyTitle": "No creatures found",
+      "emptyDescription": "Try another search, clear filters, or import the starter catalog on the API.",
+      "resultsSummary": "Page {{page}} of {{lastPage}} · {{total}} creatures",
+      "searchLabel": "Search by name",
+      "searchPlaceholder": "e.g. Emberfang",
+      "typeLabel": "Type",
+      "allTypes": "All types",
+      "clearAction": "Clear",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "detail": {
+      "loading": "Loading creature...",
+      "eyebrow": "Creature Detail",
+      "height": "Height",
+      "weight": "Weight",
+      "baseStats": "Base stats",
+      "unavailable": "—"
+    },
+    "stats": {
+      "hp": "HP",
+      "attack": "Attack",
+      "defense": "Defense",
+      "special_attack": "Special Attack",
+      "special_defense": "Special Defense",
+      "speed": "Speed"
+    },
+    "image": {
+      "loading": "Loading image...",
+      "fallback": "No artwork available for {{name}}"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "eyebrow": "Command Center",
+    "languageTitle": "Language",
+    "languageDescription": "Choose the app language. Your choice is saved on this device and sent to the API.",
+    "systemDefault": "Detected from device when no saved preference exists.",
+    "currentLanguage": "Current language: {{language}}"
+  },
+  "errors": {
+    "catalogLoad": "Unable to load the creature catalog.",
+    "notFound": "Creature not found.",
+    "detailLoad": "Unable to load this creature.",
+    "missingSlug": "Missing creature slug.",
+    "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL is not configured",
+    "apiOffline": "Unable to connect to the API"
+  }
+}

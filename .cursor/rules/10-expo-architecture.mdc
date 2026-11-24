@@ -1,0 +1,12 @@
+---
+description: Expo Router and feature organization
+globs: "{app/**/*.{ts,tsx},src/**/*.{ts,tsx}}"
+alwaysApply: false
+---
+
+# Expo Architecture
+
+- Keep `app/` route files thin; put logic in `src/features`.
+- Use Safe Area + touch-friendly targets.
+- Prefer `expo-image` for remote artwork with explicit error fallback.
+- Shared API client sends `Accept-Language`.
