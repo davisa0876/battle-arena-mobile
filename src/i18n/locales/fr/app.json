@@ -4,14 +4,21 @@
     "retry": "Réessayer",
     "loading": "Chargement...",
     "comingSoon": "Bientôt disponible",
-    "available": "Disponible"
+    "available": "Disponible",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
   },
   "navigation": {
     "home": "Accueil",
     "creatures": "Créatures",
     "settings": "Réglages",
     "brandAlt": "Logo Battle Arena",
-    "back": "Retour"
+    "back": "Retour",
+    "collection": "Collection",
+    "profile": "Profil",
+    "login": "Connexion",
+    "register": "Inscription",
+    "gameRules": "Règles du jeu"
   },
   "home": {
     "phase": "Refonte",
@@ -44,7 +51,7 @@
     "catalog": {
       "eyebrow": "Collection de créatures",
       "title": "Catalogue",
-      "description": "Parcourez les créatures enregistrées dans Battle Arena. La recherche et les filtres utilisent l'API Laravel, jamais le fournisseur externe.",
+      "description": "Etudiez chaque creature connue de l Arena. Cherchez par nom, filtrez par type et decouvez leurs forces avant de composer votre equipe.",
       "loading": "Chargement des créatures...",
       "errorTitle": "Impossible de charger le catalogue",
       "emptyTitle": "Aucune créature trouvée",
@@ -56,7 +63,9 @@
       "allTypes": "Tous les types",
       "clearAction": "Effacer",
       "previous": "Précédent",
-      "next": "Suivant"
+      "next": "Suivant",
+      "ownedBadge": "Dans ton equipe",
+      "viewDetails": "Voir les détails"
     },
     "detail": {
       "loading": "Chargement de la créature...",
@@ -67,7 +76,8 @@
       "unavailable": "—",
       "evolutionsTitle": "Évolutions",
       "evolutionsDescription": "Formes suivantes possibles pour cette créature.",
-      "evolutionStage": "Niveau {{stage}}"
+      "evolutionStage": "Niveau {{stage}}",
+      "ownedBadge": "Deja dans ta collection"
     },
     "stats": {
       "hp": "PV",
@@ -84,6 +94,20 @@
     "units": {
       "meters": "{{value}} m",
       "kilograms": "{{value}} kg"
+    },
+    "selection": {
+      "add": "Ajouter a la collection",
+      "adding": "Ajout...",
+      "owned": "Deja possede",
+      "failed": "Impossible d ajouter cette creature.",
+      "reasons": {
+        "unauthenticated": "Connecte-toi pour ajouter des creatures.",
+        "owned": "Tu possedes deja cette creature.",
+        "starter_required": "Choisis d abord un starter.",
+        "no_allowance": "Plus de places pour ce stade.",
+        "stage_locked": "Ce stade d evolution est verrouille.",
+        "unavailable": "Cette creature ne peut pas etre selectionnee."
+      }
     }
   },
   "settings": {
@@ -101,6 +125,280 @@
     "missingSlug": "Slug de créature manquant.",
     "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL n'est pas configuré",
     "apiOffline": "Impossible de se connecter à l'API",
-    "httpStatus": "La requête API a échoué avec le statut {{status}}"
+    "httpStatus": "La requête API a échoué avec le statut {{status}}",
+    "validation": "Vérifiez les champs signalés.",
+    "unauthenticated": "Votre session a expiré. Veuillez vous reconnecter.",
+    "forbidden": "Vous n'avez pas l'autorisation de faire cela.",
+    "resourceNotFound": "Introuvable.",
+    "tooManyRequests": "Trop de tentatives. Patientez un instant puis réessayez.",
+    "unexpected": "Un problème est survenu. Veuillez réessayer.",
+    "tokenMissing": "Le serveur n'a pas renvoyé de jeton d'accès.",
+    "secureStorage": "Impossible d'enregistrer votre session de façon sécurisée sur cet appareil.",
+    "gameRulesLoad": "Impossible de charger les règles du jeu.",
+    "playerLoad": "Impossible de charger ce dresseur.",
+    "collectionLoad": "Impossible de charger votre collection.",
+    "selectActive": "Impossible de changer votre créature active.",
+    "startersLoad": "Impossible de charger les créatures de départ.",
+    "starterSelect": "Impossible de sélectionner ce starter.",
+    "avatarUpload": "Impossible de mettre à jour votre avatar."
+  },
+  "auth": {
+    "eyebrow": "Compte dresseur",
+    "show": "Afficher",
+    "hide": "Masquer",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "logout": "Se déconnecter",
+    "backToLogin": "Retour à la connexion",
+    "restoreFailed": "Impossible de joindre le serveur pour restaurer votre session. Vérifiez votre connexion et réessayez.",
+    "fields": {
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "newPassword": "Nouveau mot de passe",
+      "passwordConfirmation": "Confirmer le mot de passe",
+      "passwordHint": "Au moins 8 caractères avec des lettres et des chiffres.",
+      "handle": "Pseudo",
+      "handleHint": "3 à 24 caractères : lettres minuscules, chiffres et tirets bas.",
+      "displayName": "Nom affiché",
+      "displayNameHint": "Facultatif. Par défaut, votre pseudo.",
+      "resetToken": "Jeton de réinitialisation"
+    },
+    "login": {
+      "title": "Connexion",
+      "description": "Connectez-vous pour gérer votre profil et votre collection de créatures.",
+      "submit": "Se connecter",
+      "forgot": "Mot de passe oublié ?",
+      "noAccount": "Pas encore de compte ?",
+      "createAccount": "Créer un compte"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "description": "Choisissez un pseudo unique et rejoignez l'arène.",
+      "submit": "Créer le compte",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "description": "Saisissez votre e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+      "submit": "Envoyer le lien",
+      "sent": "Si un compte existe pour cet e-mail, un lien de réinitialisation est en route."
+    },
+    "reset": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Choisissez un nouveau mot de passe pour votre compte.",
+      "submit": "Réinitialiser le mot de passe",
+      "done": "Votre mot de passe a été réinitialisé. Vous pouvez maintenant vous connecter.",
+      "requestNew": "Demander un nouveau lien",
+      "tokenHint": "Collez le jeton reçu dans votre e-mail de réinitialisation."
+    },
+    "home": {
+      "guestTitle": "Rejoignez l'arène",
+      "guestBody": "Connectez-vous ou créez un compte dresseur pour choisir un starter et constituer votre collection.",
+      "welcome": "Bon retour, {{name}}"
+    }
+  },
+  "validation": {
+    "required": "Ce champ est obligatoire.",
+    "email": "Saisissez une adresse e-mail valide.",
+    "handleLength": "Le pseudo doit comporter de 3 à 24 caractères.",
+    "handleFormat": "Utilisez uniquement des lettres minuscules, des chiffres et des tirets bas.",
+    "passwordLength": "Le mot de passe doit comporter de 8 à 72 caractères.",
+    "passwordComplexity": "Le mot de passe doit contenir des lettres et des chiffres.",
+    "passwordMismatch": "Les mots de passe ne correspondent pas.",
+    "bioLength": "La bio ne doit pas dépasser 500 caractères.",
+    "displayNameLength": "Le nom affiché ne doit pas dépasser 64 caractères."
+  },
+  "profile": {
+    "eyebrow": "Profil dresseur",
+    "emailVerified": "E-mail vérifié",
+    "emailUnverified": "E-mail non vérifié",
+    "collectionVisibility": "Visibilité de la collection",
+    "collectionPublic": "Publique — tout le monde peut voir votre collection",
+    "collectionPrivate": "Privée — vous seul pouvez voir votre collection",
+    "edit": "Modifier le profil",
+    "editTitle": "Modifier le profil",
+    "viewPublic": "Voir le profil public",
+    "bio": "Bio",
+    "bioHint": "{{length}}/500",
+    "publicCollection": "Collection publique",
+    "publicCollectionHint": "Permettez aux autres dresseurs de voir vos créatures sur votre profil public.",
+    "avatar": {
+      "change": "Choisir un avatar",
+      "remove": "Supprimer l'avatar",
+      "hint": "JPG, PNG ou WebP. Votre photo est recadrée en carré et redimensionnée avant l'envoi."
+    },
+    "trainer": {
+      "title": "Progression du dresseur",
+      "level": "Niveau {{level}}",
+      "progressLabel": "{{percent}} % vers le niveau suivant",
+      "maxLevel": "Niveau maximum atteint · {{xp}} XP au total",
+      "xpProgress": "{{current}} / {{needed}} XP avant le niveau suivant · {{total}} XP au total"
+    },
+    "player": {
+      "eyebrow": "Dresseur",
+      "loading": "Chargement du dresseur...",
+      "notFound": "Dresseur introuvable.",
+      "collection": "Collection",
+      "emptyCollection": "Ce dresseur n'a pas encore de créatures.",
+      "privateCollection": "Ce dresseur garde sa collection privée."
+    },
+    "resendVerification": "Renvoyer l e-mail de verification",
+    "password": {
+      "title": "Changer le mot de passe",
+      "current": "Mot de passe actuel",
+      "next": "Nouveau mot de passe",
+      "confirm": "Confirmer le nouveau mot de passe",
+      "submit": "Mettre a jour le mot de passe",
+      "changed": "Mot de passe mis a jour."
+    },
+    "allowances": {
+      "title": "Sélections de créatures",
+      "hint": "Nombre de créatures que vous pouvez encore sélectionner, par stade d'évolution. Les quotas viennent du serveur.",
+      "stage": "Stade {{stage}}",
+      "remaining": "{{remaining}} sur {{total}} restantes",
+      "used": "{{used}} utilisées",
+      "pvp": "PvP",
+      "pvpUnlocked": "Débloqué",
+      "pvpLocked": "Verrouillé"
+    }
+  },
+  "collection": {
+    "eyebrow": "Ma collection",
+    "title": "Vos créatures",
+    "description": "Votre créature active mène votre équipe. Les formes évoluées sont affichées mais verrouillées pour le moment.",
+    "loading": "Chargement de votre collection...",
+    "errorTitle": "Impossible de charger votre collection",
+    "emptyTitle": "Aucune créature pour l'instant",
+    "emptyDescription": "Choisissez votre créature de départ pour commencer votre collection.",
+    "open": "Ouvrir ma collection",
+    "chooseStarter": "Choisir votre starter",
+    "active": "Active",
+    "level": "Niveau {{level}}",
+    "xp": "{{xp}} XP",
+    "setActive": "Définir comme active",
+    "evolution": {
+      "title": "Évolutions",
+      "locked": "Verrouillée",
+      "ready": "Prête",
+      "notAvailable": "L'évolution des créatures n'est pas encore disponible."
+    },
+    "starter": {
+      "eyebrow": "Bienvenue, dresseur",
+      "title": "Choisissez votre starter",
+      "description": "Choisissez la créature qui débute votre aventure. Elle devient votre créature active.",
+      "loading": "Chargement des starters...",
+      "errorTitle": "Impossible de charger les starters",
+      "alreadySelected": "Vous avez déjà choisi une créature de départ.",
+      "permanent": "Le choix de votre starter est définitif et ne pourra pas être modifié.",
+      "confirm": "Confirmer le starter"
+    }
+  },
+  "gameRules": {
+    "eyebrow": "Règles du jeu",
+    "title": "Comment fonctionne Battle Arena",
+    "description": "Les règles viennent directement du serveur de jeu. Chaque section indique si elle est disponible aujourd'hui ou bientôt.",
+    "loading": "Chargement des règles du jeu...",
+    "errorTitle": "Impossible de charger les règles du jeu",
+    "version": "Version des règles {{version}}",
+    "planned": "Bientôt",
+    "curve": {
+      "title": "Courbe d'XP",
+      "increment": "Incrément d'XP par niveau : {{xp}}",
+      "level": "Niveau",
+      "toAdvance": "XP pour progresser",
+      "total": "XP total"
+    },
+    "starters": {
+      "title": "Starters disponibles"
+    },
+    "selection": {
+      "stage1": "Créatures de stade 1 : débloquées au niveau de dresseur {{unlock}}. Votre quota égale votre niveau de dresseur, avec un maximum de {{cap}}.",
+      "stage2": "Créatures de stade 2 : débloquées au niveau de dresseur {{unlock}} avec {{atUnlock}} autorisée au déblocage, puis {{increment}} de plus à chaque niveau suivant.",
+      "stage2Through": "Ces règles sont définies jusqu'au niveau de dresseur {{through}}.",
+      "stageUnlock": "Créatures de stade {{stage}} : débloquées au niveau de dresseur {{unlock}}.",
+      "stageUndefined": "Créatures de stade {{stage}} : les règles de sélection ne sont pas encore définies.",
+      "samplesTitle": "Quota de sélection par niveau de dresseur",
+      "trainerLevel": "Niveau de dresseur",
+      "stage1Column": "Stade 1",
+      "stage2Column": "Stade 2"
+    },
+    "battle": {
+      "pve": "Le PvE (combats solo) s'ouvre au niveau de dresseur {{level}}.",
+      "pvp": "Le PvP (combats contre d'autres dresseurs) s'ouvre au niveau de dresseur {{level}}.",
+      "notPlayable": "Les combats ne sont pas encore jouables. Ces niveaux décrivent l'accès futur.",
+      "playable": "Les combats sont jouables."
+    },
+    "rewards": {
+      "title": "XP de dresseur par résultat de combat",
+      "notEarnable": "Ces récompenses ne peuvent pas encore être gagnées car les combats ne sont pas jouables.",
+      "mode": "Mode",
+      "win": "Victoire",
+      "loss": "Défaite",
+      "pve": "PvE",
+      "pvp": "PvP",
+      "xp": "{{xp}} XP"
+    },
+    "features": {
+      "auth": "Comptes et connexion",
+      "profiles": "Profils de dresseur",
+      "collection": "Collection de créatures",
+      "starter_selection": "Choix du starter",
+      "creature_selection": "Sélection de créatures",
+      "pve": "Combats PvE",
+      "pvp": "Combats PvP",
+      "evolution_execution": "Évolution",
+      "multiplayer": "Multijoueur",
+      "rankings": "Classements",
+      "achievements": "Succès"
+    },
+    "sections": {
+      "A": {
+        "title": "Niveaux de dresseur",
+        "summary": "Le niveau de dresseur est la progression de votre compte, jusqu'au niveau {{maxLevel}}. L'XP nécessaire pour avancer augmente d'un montant fixe à chaque niveau.",
+        "points": [
+          "Chaque dresseur commence au niveau {{startingLevel}} avec {{startingXp}} XP (valeurs du serveur).",
+          "Progresser demande {{increment}} XP de plus par niveau, comme publié par le serveur.",
+          "L'XP est attribuée uniquement par des systèmes de jeu de confiance côté serveur.",
+          "L'XP du dresseur et l'XP des créatures sont deux systèmes séparés."
+        ]
+      },
+      "B": {
+        "title": "Sélection de créatures",
+        "summary": "Sélectionner une créature ajoute une espèce du catalogue à votre collection. Le nombre de sélections dépend de votre niveau de dresseur et du stade d'évolution de la créature.",
+        "points": [
+          "{{starterCount}} créatures de départ sont proposées à l'inscription.",
+          "Les quotas sont comptés selon le stade d'évolution d'origine de la créature lors de la sélection, pas son stade actuel."
+        ]
+      },
+      "C": {
+        "title": "Accès aux combats",
+        "summary": "Les modes de combat s'ouvrent à des niveaux de dresseur différents.",
+        "points": []
+      },
+      "D": {
+        "title": "Récompenses d'XP de combat",
+        "summary": "XP de dresseur accordée pour chaque résultat de combat, telle que publiée par le serveur.",
+        "points": []
+      },
+      "E": {
+        "title": "Évolution et niveau de dresseur",
+        "summary": "Trois nombres différents existent dans Battle Arena et ils ne sont jamais confondus.",
+        "points": [
+          "Le niveau de dresseur est la progression de votre compte. Il détermine combien de créatures vous pouvez sélectionner et quels modes de combat sont accessibles.",
+          "Le stade d'évolution est une propriété d'une créature du catalogue (stade 1, 2 ou 3). Il ne change jamais votre niveau de dresseur.",
+          "Le niveau d'une créature possédée appartient à cette créature de votre collection et progresse indépendamment de votre niveau de dresseur.",
+          "L'évolution n'est pas disponible tant que le serveur ne l'active pas."
+        ]
+      },
+      "F": {
+        "title": "État du développement",
+        "summary": "Battle Arena est un projet de portfolio technique en évolution. La disponibilité des fonctionnalités vient de l'API en direct.",
+        "points": [
+          "La version des règles et la disponibilité des fonctionnalités sont chargées depuis le serveur.",
+          "Parcourez le catalogue public de créatures pour les données de référence partagées."
+        ]
+      }
+    }
   }
 }

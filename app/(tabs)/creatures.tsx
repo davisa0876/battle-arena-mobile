@@ -11,6 +11,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 
+import { RequireAuth } from '@/src/features/auth'
+import { AddToCollectionButton } from '@/src/features/creatures/components/AddToCollectionButton'
 import { CreatureImage } from '@/src/features/creatures/components/CreatureImage'
 import { useCreatureCatalog, useCreatureTypes } from '@/src/features/creatures/hooks/useCreatureCatalog'
 import { colors } from '@/src/theme/colors'
@@ -32,6 +34,7 @@ export default function CreaturesScreen() {
   )
 
   return (
+    <RequireAuth>
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.safe}>
       <FlatList
         contentContainerStyle={styles.content}
@@ -133,18 +136,32 @@ export default function CreaturesScreen() {
           </View>
         }
         renderItem={({ item }) => (
-          <Link href={`/creatures/${item.slug}`} asChild>
-            <Pressable style={styles.card}>
-              <CreatureImage
-                name={item.name}
-                imageUrl={item.image_url}
-                imageRef={item.image_ref}
-                style={styles.cardImage}
-              />
-              <Text style={styles.cardTitle}>{item.name}</Text>
-              <Text style={styles.cardTypes}>{item.types.map((entry) => entry.name).join(' · ')}</Text>
-            </Pressable>
-          </Link>
+          <View style={[styles.card, item.is_owned ? styles.cardOwned : null]}>
+            {item.is_owned ? (
+              <Text style={styles.ownedBadge}>{t('creatures.catalog.ownedBadge')}</Text>
+            ) : null}
+            <Link href={`/creatures/${item.slug}`} asChild>
+              <Pressable>
+                <CreatureImage
+                  name={item.name}
+                  imageUrl={item.image_url}
+                  imageRef={item.image_ref}
+                  style={styles.cardImage}
+                />
+                <Text style={styles.cardTitle}>{item.name}</Text>
+                <Text style={styles.cardTypes}>{item.types.map((entry) => entry.name).join(' · ')}</Text>
+              </Pressable>
+            </Link>
+            <Link href={`/creatures/${item.slug}`} asChild>
+              <Pressable style={styles.detailsButton}>
+                <Text style={styles.detailsButtonText}>{t('creatures.catalog.viewDetails')}</Text>
+              </Pressable>
+            </Link>
+            <AddToCollectionButton
+              creature={item}
+              onSelected={() => setRetryToken((value) => value + 1)}
+            />
+          </View>
         )}
         ListFooterComponent={
           loadState.status === 'ready' && loadState.creatures.length > 0 ? (
@@ -168,6 +185,7 @@ export default function CreaturesScreen() {
         }
       />
     </SafeAreaView>
+    </RequireAuth>
   )
 }
 
@@ -312,6 +330,20 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
     padding: spacing.md,
   },
+  cardOwned: {
+    backgroundColor: colors.ownedSurface,
+    borderColor: colors.neon,
+    borderWidth: 2,
+  },
+  ownedBadge: {
+    alignSelf: 'flex-start',
+    color: colors.neon,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 1,
+    marginBottom: spacing.sm,
+    textTransform: 'uppercase',
+  },
   cardImage: {
     marginBottom: spacing.sm,
   },
@@ -324,6 +356,20 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     fontSize: 12,
     marginTop: spacing.xs,
+  },
+  detailsButton: {
+    alignItems: 'center',
+    borderColor: colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  detailsButtonText: {
+    color: colors.text,
+    fontSize: 12,
+    fontWeight: '700',
   },
   pagination: {
     flexDirection: 'row',

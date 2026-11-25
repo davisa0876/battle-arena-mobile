@@ -9,5 +9,8 @@ alwaysApply: true
 - No browser-only APIs (`window`, `localStorage`, DOM CSS).
 - All visible text uses i18n (`en/fr/pt-BR/it/es`).
 - Persist language with AsyncStorage; seed from expo-localization.
-- Do not invent battle/auth features in this phase.
+- Phase 3 adds authentication, profiles, collection and game rules. Do not invent battle,
+  multiplayer, ranking or evolution-execution features; they are flagged as planned by `GET /api/game/rules`.
+- Auth tokens (Sanctum bearer) live ONLY in `expo-secure-store`. Never use AsyncStorage,
+  `localStorage` or cookies for tokens.
 - Do not claim emulator verification without actually running it.

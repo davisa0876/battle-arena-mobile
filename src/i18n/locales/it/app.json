@@ -4,14 +4,21 @@
     "retry": "Riprova",
     "loading": "Caricamento...",
     "comingSoon": "In arrivo",
-    "available": "Disponibile"
+    "available": "Disponibile",
+    "save": "Salva",
+    "cancel": "Annulla"
   },
   "navigation": {
     "home": "Home",
     "creatures": "Creature",
     "settings": "Impostazioni",
     "brandAlt": "Logo Battle Arena",
-    "back": "Indietro"
+    "back": "Indietro",
+    "collection": "Collezione",
+    "profile": "Profilo",
+    "login": "Accedi",
+    "register": "Registrati",
+    "gameRules": "Regole di gioco"
   },
   "home": {
     "phase": "Redesign",
@@ -44,7 +51,7 @@
     "catalog": {
       "eyebrow": "Collezione creature",
       "title": "Catalogo",
-      "description": "Sfoglia le creature salvate in Battle Arena. Ricerca e filtri usano l'API Laravel, mai il provider esterno.",
+      "description": "Studia ogni creatura conosciuta nell Arena. Cerca per nome, filtra per tipo e scopri i loro punti di forza prima di formare la squadra.",
       "loading": "Caricamento creature...",
       "errorTitle": "Impossibile caricare il catalogo",
       "emptyTitle": "Nessuna creatura trovata",
@@ -56,7 +63,9 @@
       "allTypes": "Tutti i tipi",
       "clearAction": "Cancella",
       "previous": "Precedente",
-      "next": "Successiva"
+      "next": "Successiva",
+      "ownedBadge": "Nella tua squadra",
+      "viewDetails": "Vedi dettagli"
     },
     "detail": {
       "loading": "Caricamento creatura...",
@@ -67,7 +76,8 @@
       "unavailable": "—",
       "evolutionsTitle": "Evoluzioni",
       "evolutionsDescription": "Prossime forme possibili di questa creatura.",
-      "evolutionStage": "Livello {{stage}}"
+      "evolutionStage": "Livello {{stage}}",
+      "ownedBadge": "Gia nella tua collezione"
     },
     "stats": {
       "hp": "PS",
@@ -84,6 +94,20 @@
     "units": {
       "meters": "{{value}} m",
       "kilograms": "{{value}} kg"
+    },
+    "selection": {
+      "add": "Aggiungi alla collezione",
+      "adding": "Aggiunta...",
+      "owned": "Gia posseduta",
+      "failed": "Impossibile aggiungere questa creatura.",
+      "reasons": {
+        "unauthenticated": "Accedi per aggiungere creature.",
+        "owned": "Possiedi gia questa creatura.",
+        "starter_required": "Scegli prima uno starter.",
+        "no_allowance": "Nessuno slot rimasto per questo stadio.",
+        "stage_locked": "Questo stadio evolutivo e bloccato.",
+        "unavailable": "Questa creatura non puo essere selezionata."
+      }
     }
   },
   "settings": {
@@ -101,6 +125,280 @@
     "missingSlug": "Slug creatura mancante.",
     "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL non è configurato",
     "apiOffline": "Impossibile connettersi all'API",
-    "httpStatus": "La richiesta all’API non è riuscita con stato {{status}}"
+    "httpStatus": "La richiesta all’API non è riuscita con stato {{status}}",
+    "validation": "Controlla i campi evidenziati.",
+    "unauthenticated": "La sessione è scaduta. Accedi di nuovo.",
+    "forbidden": "Non hai il permesso di farlo.",
+    "resourceNotFound": "Non trovato.",
+    "tooManyRequests": "Troppi tentativi. Attendi un momento e riprova.",
+    "unexpected": "Qualcosa è andato storto. Riprova.",
+    "tokenMissing": "Il server non ha restituito un token di accesso.",
+    "secureStorage": "Impossibile salvare la sessione in modo sicuro su questo dispositivo.",
+    "gameRulesLoad": "Impossibile caricare le regole di gioco.",
+    "playerLoad": "Impossibile caricare questo allenatore.",
+    "collectionLoad": "Impossibile caricare la collezione.",
+    "selectActive": "Impossibile cambiare la creatura attiva.",
+    "startersLoad": "Impossibile caricare le creature iniziali.",
+    "starterSelect": "Impossibile selezionare questo iniziale.",
+    "avatarUpload": "Impossibile aggiornare l'avatar."
+  },
+  "auth": {
+    "eyebrow": "Account allenatore",
+    "show": "Mostra",
+    "hide": "Nascondi",
+    "showPassword": "Mostra password",
+    "hidePassword": "Nascondi password",
+    "logout": "Esci",
+    "backToLogin": "Torna all'accesso",
+    "restoreFailed": "Impossibile raggiungere il server per ripristinare la sessione. Controlla la connessione e riprova.",
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "Nuova password",
+      "passwordConfirmation": "Conferma password",
+      "passwordHint": "Almeno 8 caratteri con lettere e numeri.",
+      "handle": "Nome utente",
+      "handleHint": "Da 3 a 24 caratteri: lettere minuscole, numeri e trattini bassi.",
+      "displayName": "Nome visualizzato",
+      "displayNameHint": "Facoltativo. Per impostazione predefinita è il tuo nome utente.",
+      "resetToken": "Token di reimpostazione"
+    },
+    "login": {
+      "title": "Accedi",
+      "description": "Accedi per gestire il tuo profilo e la tua collezione di creature.",
+      "submit": "Accedi",
+      "forgot": "Hai dimenticato la password?",
+      "noAccount": "Non hai ancora un account?",
+      "createAccount": "Creane uno"
+    },
+    "register": {
+      "title": "Crea account",
+      "description": "Scegli un nome utente unico ed entra nell'arena.",
+      "submit": "Crea account",
+      "haveAccount": "Hai già un account?",
+      "signIn": "Accedi"
+    },
+    "forgot": {
+      "title": "Password dimenticata",
+      "description": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
+      "submit": "Invia link",
+      "sent": "Se esiste un account per quell'email, un link di reimpostazione è in arrivo."
+    },
+    "reset": {
+      "title": "Reimposta password",
+      "description": "Scegli una nuova password per il tuo account.",
+      "submit": "Reimposta password",
+      "done": "La tua password è stata reimpostata. Ora puoi accedere.",
+      "requestNew": "Richiedi un nuovo link",
+      "tokenHint": "Incolla il token ricevuto nell'email di reimpostazione."
+    },
+    "home": {
+      "guestTitle": "Entra nell'arena",
+      "guestBody": "Accedi o crea un account allenatore per scegliere un iniziale e costruire la tua collezione.",
+      "welcome": "Bentornato, {{name}}"
+    }
+  },
+  "validation": {
+    "required": "Questo campo è obbligatorio.",
+    "email": "Inserisci un indirizzo email valido.",
+    "handleLength": "Il nome utente deve avere da 3 a 24 caratteri.",
+    "handleFormat": "Usa solo lettere minuscole, numeri e trattini bassi.",
+    "passwordLength": "La password deve avere da 8 a 72 caratteri.",
+    "passwordComplexity": "La password deve contenere lettere e numeri.",
+    "passwordMismatch": "Le password non coincidono.",
+    "bioLength": "La bio può avere al massimo 500 caratteri.",
+    "displayNameLength": "Il nome visualizzato può avere al massimo 64 caratteri."
+  },
+  "profile": {
+    "eyebrow": "Profilo allenatore",
+    "emailVerified": "Email verificata",
+    "emailUnverified": "Email non verificata",
+    "collectionVisibility": "Visibilità della collezione",
+    "collectionPublic": "Pubblica — chiunque può vedere la tua collezione",
+    "collectionPrivate": "Privata — solo tu puoi vedere la tua collezione",
+    "edit": "Modifica profilo",
+    "editTitle": "Modifica profilo",
+    "viewPublic": "Vedi profilo pubblico",
+    "bio": "Bio",
+    "bioHint": "{{length}}/500",
+    "publicCollection": "Collezione pubblica",
+    "publicCollectionHint": "Permetti agli altri allenatori di vedere le tue creature sul tuo profilo pubblico.",
+    "avatar": {
+      "change": "Scegli avatar",
+      "remove": "Rimuovi avatar",
+      "hint": "JPG, PNG o WebP. La foto viene ritagliata in un quadrato e ridimensionata prima del caricamento."
+    },
+    "trainer": {
+      "title": "Progressi dell'allenatore",
+      "level": "Livello {{level}}",
+      "progressLabel": "{{percent}}% al livello successivo",
+      "maxLevel": "Livello massimo raggiunto · {{xp}} XP totali",
+      "xpProgress": "{{current}} / {{needed}} XP al livello successivo · {{total}} XP totali"
+    },
+    "player": {
+      "eyebrow": "Allenatore",
+      "loading": "Caricamento allenatore...",
+      "notFound": "Allenatore non trovato.",
+      "collection": "Collezione",
+      "emptyCollection": "Questo allenatore non ha ancora creature.",
+      "privateCollection": "Questo allenatore tiene privata la sua collezione."
+    },
+    "resendVerification": "Reinvia email di verifica",
+    "password": {
+      "title": "Cambia password",
+      "current": "Password attuale",
+      "next": "Nuova password",
+      "confirm": "Conferma nuova password",
+      "submit": "Aggiorna password",
+      "changed": "Password aggiornata."
+    },
+    "allowances": {
+      "title": "Selezioni di creature",
+      "hint": "Quante creature puoi ancora selezionare, per stadio evolutivo. Le quote arrivano dal server.",
+      "stage": "Stadio {{stage}}",
+      "remaining": "{{remaining}} di {{total}} rimaste",
+      "used": "{{used}} usate",
+      "pvp": "PvP",
+      "pvpUnlocked": "Sbloccato",
+      "pvpLocked": "Bloccato"
+    }
+  },
+  "collection": {
+    "eyebrow": "La mia collezione",
+    "title": "Le tue creature",
+    "description": "La tua creatura attiva guida la squadra. Le forme evolute sono mostrate ma per ora bloccate.",
+    "loading": "Caricamento della collezione...",
+    "errorTitle": "Impossibile caricare la collezione",
+    "emptyTitle": "Ancora nessuna creatura",
+    "emptyDescription": "Scegli la tua creatura iniziale per cominciare la collezione.",
+    "open": "Apri la mia collezione",
+    "chooseStarter": "Scegli il tuo iniziale",
+    "active": "Attiva",
+    "level": "Livello {{level}}",
+    "xp": "{{xp}} XP",
+    "setActive": "Imposta come attiva",
+    "evolution": {
+      "title": "Evoluzioni",
+      "locked": "Bloccata",
+      "ready": "Pronta",
+      "notAvailable": "L'evoluzione delle creature non è ancora disponibile."
+    },
+    "starter": {
+      "eyebrow": "Benvenuto, allenatore",
+      "title": "Scegli il tuo iniziale",
+      "description": "Scegli la creatura che dà inizio al tuo viaggio. Diventa la tua creatura attiva.",
+      "loading": "Caricamento degli iniziali...",
+      "errorTitle": "Impossibile caricare gli iniziali",
+      "alreadySelected": "Hai già scelto una creatura iniziale.",
+      "permanent": "La scelta dell'iniziale è definitiva e non potrà essere cambiata in seguito.",
+      "confirm": "Conferma iniziale"
+    }
+  },
+  "gameRules": {
+    "eyebrow": "Regole del gioco",
+    "title": "Come funziona Battle Arena",
+    "description": "Le regole arrivano direttamente dal server di gioco. Ogni sezione mostra se è disponibile oggi o in arrivo.",
+    "loading": "Caricamento delle regole del gioco...",
+    "errorTitle": "Impossibile caricare le regole del gioco",
+    "version": "Versione delle regole {{version}}",
+    "planned": "In arrivo",
+    "curve": {
+      "title": "Curva XP",
+      "increment": "Incremento di XP per livello: {{xp}}",
+      "level": "Livello",
+      "toAdvance": "XP per avanzare",
+      "total": "XP totali"
+    },
+    "starters": {
+      "title": "Starter disponibili"
+    },
+    "selection": {
+      "stage1": "Creature di stadio 1: sbloccate al livello allenatore {{unlock}}. La tua quota è pari al tuo livello allenatore, fino a un massimo di {{cap}}.",
+      "stage2": "Creature di stadio 2: sbloccate al livello allenatore {{unlock}} con {{atUnlock}} consentita allo sblocco, più {{increment}} in più a ogni livello successivo.",
+      "stage2Through": "Queste regole sono definite fino al livello allenatore {{through}}.",
+      "stageUnlock": "Creature di stadio {{stage}}: sbloccate al livello allenatore {{unlock}}.",
+      "stageUndefined": "Creature di stadio {{stage}}: le regole di selezione non sono ancora definite.",
+      "samplesTitle": "Quota di selezione per livello allenatore",
+      "trainerLevel": "Livello allenatore",
+      "stage1Column": "Stadio 1",
+      "stage2Column": "Stadio 2"
+    },
+    "battle": {
+      "pve": "Il PvE (battaglie in solitaria) si apre al livello allenatore {{level}}.",
+      "pvp": "Il PvP (battaglie contro altri allenatori) si apre al livello allenatore {{level}}.",
+      "notPlayable": "Le battaglie non sono ancora giocabili. Questi livelli descrivono l'accesso futuro.",
+      "playable": "Le battaglie sono giocabili."
+    },
+    "rewards": {
+      "title": "XP allenatore per risultato di battaglia",
+      "notEarnable": "Queste ricompense non possono ancora essere ottenute perché le battaglie non sono giocabili.",
+      "mode": "Modalità",
+      "win": "Vittoria",
+      "loss": "Sconfitta",
+      "pve": "PvE",
+      "pvp": "PvP",
+      "xp": "{{xp}} XP"
+    },
+    "features": {
+      "auth": "Account e accesso",
+      "profiles": "Profili allenatore",
+      "collection": "Collezione di creature",
+      "starter_selection": "Scelta dello starter",
+      "creature_selection": "Selezione delle creature",
+      "pve": "Battaglie PvE",
+      "pvp": "Battaglie PvP",
+      "evolution_execution": "Evoluzione",
+      "multiplayer": "Multigiocatore",
+      "rankings": "Classifiche",
+      "achievements": "Obiettivi"
+    },
+    "sections": {
+      "A": {
+        "title": "Livelli allenatore",
+        "summary": "Il livello allenatore è la progressione del tuo account, fino al livello {{maxLevel}}. Gli XP necessari per avanzare crescono di una quantità fissa a ogni livello.",
+        "points": [
+          "Ogni allenatore inizia al livello {{startingLevel}} con {{startingXp}} XP (valori dal server).",
+          "Per avanzare servono {{increment}} XP in più a ogni livello, come pubblicato dal server.",
+          "Gli XP vengono assegnati solo da sistemi di gioco affidabili sul server.",
+          "Gli XP dell'allenatore e quelli delle creature sono sistemi separati."
+        ]
+      },
+      "B": {
+        "title": "Selezione delle creature",
+        "summary": "Selezionare una creatura aggiunge una specie del catalogo alla tua collezione. Quante ne puoi selezionare dipende dal tuo livello allenatore e dallo stadio evolutivo della creatura.",
+        "points": [
+          "{{starterCount}} creature iniziali sono offerte alla registrazione.",
+          "Le quote sono contate in base allo stadio evolutivo originale della creatura al momento della selezione, non a quello attuale."
+        ]
+      },
+      "C": {
+        "title": "Accesso alle battaglie",
+        "summary": "Le modalità di battaglia si aprono a livelli allenatore diversi.",
+        "points": []
+      },
+      "D": {
+        "title": "Ricompense XP delle battaglie",
+        "summary": "XP allenatore assegnati per ogni risultato di battaglia, come pubblicato dal server.",
+        "points": []
+      },
+      "E": {
+        "title": "Evoluzione e livello allenatore",
+        "summary": "In Battle Arena esistono tre numeri diversi e non vengono mai confusi.",
+        "points": [
+          "Il livello allenatore è la progressione del tuo account. Decide quante creature puoi selezionare e a quali modalità di battaglia puoi accedere.",
+          "Lo stadio evolutivo è una proprietà di una creatura del catalogo (stadio 1, 2 o 3). Non modifica mai il tuo livello allenatore.",
+          "Il livello di una creatura posseduta appartiene a quella creatura della tua collezione e progredisce indipendentemente dal tuo livello allenatore.",
+          "L'esecuzione dell'evoluzione non è disponibile finché il server non la attiva."
+        ]
+      },
+      "F": {
+        "title": "Stato dello sviluppo",
+        "summary": "Battle Arena è un progetto tecnico di portfolio in evoluzione. La disponibilità delle funzioni arriva dall'endpoint delle regole dell'API in tempo reale.",
+        "points": [
+          "La versione delle regole e la disponibilità delle funzioni sono caricate dal server.",
+          "Sfoglia il catalogo pubblico delle creature per i dati di riferimento condivisi."
+        ]
+      }
+    }
   }
 }

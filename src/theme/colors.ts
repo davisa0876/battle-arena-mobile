@@ -6,6 +6,8 @@ export const colors = {
   ember: '#FF6542',
   electric: '#27C9EC',
   gold: '#FFB84D',
+  neon: '#39FF14',
+  ownedSurface: '#000000',
   text: '#F5F7FB',
   textMuted: '#9EA8BA',
   danger: '#FF6B7A',

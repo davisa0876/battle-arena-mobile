@@ -4,14 +4,21 @@
     "retry": "Retry",
     "loading": "Loading...",
     "comingSoon": "Coming Soon",
-    "available": "Available"
+    "available": "Available",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "navigation": {
     "home": "Home",
     "creatures": "Creatures",
     "settings": "Settings",
     "brandAlt": "Battle Arena logo",
-    "back": "Back"
+    "back": "Back",
+    "collection": "Collection",
+    "profile": "Profile",
+    "login": "Login",
+    "register": "Register",
+    "gameRules": "Game Rules"
   },
   "home": {
     "phase": "Phase redesign",
@@ -44,7 +51,7 @@
     "catalog": {
       "eyebrow": "Creature Collection",
       "title": "Catalog",
-      "description": "Browse creatures persisted in Battle Arena. Search and filters hit the Laravel API, never the external data provider.",
+      "description": "Study every creature known to the Arena. Search by name, filter by type, and learn their strengths before you choose your team.",
       "loading": "Loading creatures...",
       "errorTitle": "Could not load the catalog",
       "emptyTitle": "No creatures found",
@@ -56,7 +63,9 @@
       "allTypes": "All types",
       "clearAction": "Clear",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "ownedBadge": "In your team",
+      "viewDetails": "View details"
     },
     "detail": {
       "loading": "Loading creature...",
@@ -67,7 +76,8 @@
       "unavailable": "—",
       "evolutionsTitle": "Evolutions",
       "evolutionsDescription": "Possible next forms for this creature.",
-      "evolutionStage": "Stage {{stage}}"
+      "evolutionStage": "Stage {{stage}}",
+      "ownedBadge": "Already in your collection"
     },
     "stats": {
       "hp": "HP",
@@ -84,6 +94,20 @@
     "units": {
       "meters": "{{value}} m",
       "kilograms": "{{value}} kg"
+    },
+    "selection": {
+      "add": "Add to collection",
+      "adding": "Adding...",
+      "owned": "Already owned",
+      "failed": "Could not add this creature.",
+      "reasons": {
+        "unauthenticated": "Sign in to add creatures.",
+        "owned": "You already own this creature.",
+        "starter_required": "Choose a starter first.",
+        "no_allowance": "No selection slots left for this stage.",
+        "stage_locked": "This evolution stage is locked.",
+        "unavailable": "This creature cannot be selected."
+      }
     }
   },
   "settings": {
@@ -101,6 +125,280 @@
     "missingSlug": "Missing creature slug.",
     "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL is not configured",
     "apiOffline": "Unable to connect to the API",
-    "httpStatus": "API request failed with status {{status}}"
+    "httpStatus": "API request failed with status {{status}}",
+    "validation": "Please check the highlighted fields.",
+    "unauthenticated": "Your session has expired. Please log in again.",
+    "forbidden": "You are not allowed to do that.",
+    "resourceNotFound": "Not found.",
+    "tooManyRequests": "Too many attempts. Please wait a moment and try again.",
+    "unexpected": "Something went wrong. Please try again.",
+    "tokenMissing": "The server did not return an access token.",
+    "secureStorage": "Could not save your session securely on this device.",
+    "gameRulesLoad": "Unable to load the game rules.",
+    "playerLoad": "Unable to load this trainer.",
+    "collectionLoad": "Unable to load your collection.",
+    "selectActive": "Unable to change your active creature.",
+    "startersLoad": "Unable to load the starter creatures.",
+    "starterSelect": "Unable to select this starter.",
+    "avatarUpload": "Unable to update your avatar."
+  },
+  "auth": {
+    "eyebrow": "Trainer Account",
+    "show": "Show",
+    "hide": "Hide",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "logout": "Log out",
+    "backToLogin": "Back to login",
+    "restoreFailed": "We could not reach the server to restore your session. Check your connection and try again.",
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New password",
+      "passwordConfirmation": "Confirm password",
+      "passwordHint": "At least 8 characters with letters and numbers.",
+      "handle": "Handle",
+      "handleHint": "3–24 characters: lowercase letters, numbers and underscores.",
+      "displayName": "Display name",
+      "displayNameHint": "Optional. Defaults to your handle.",
+      "resetToken": "Reset token"
+    },
+    "login": {
+      "title": "Log in",
+      "description": "Sign in to manage your profile and creature collection.",
+      "submit": "Log in",
+      "forgot": "Forgot your password?",
+      "noAccount": "No account yet?",
+      "createAccount": "Create one"
+    },
+    "register": {
+      "title": "Create account",
+      "description": "Pick a unique handle and join the arena.",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "signIn": "Log in"
+    },
+    "forgot": {
+      "title": "Forgot password",
+      "description": "Enter your email and we will send you a link to reset your password.",
+      "submit": "Send reset link",
+      "sent": "If an account exists for that email, a reset link is on its way."
+    },
+    "reset": {
+      "title": "Reset password",
+      "description": "Choose a new password for your account.",
+      "submit": "Reset password",
+      "done": "Your password has been reset. You can now log in.",
+      "requestNew": "Request a new link",
+      "tokenHint": "Paste the token from your reset email."
+    },
+    "home": {
+      "guestTitle": "Join the arena",
+      "guestBody": "Log in or create a trainer account to pick a starter and build your collection.",
+      "welcome": "Welcome back, {{name}}"
+    }
+  },
+  "validation": {
+    "required": "This field is required.",
+    "email": "Enter a valid email address.",
+    "handleLength": "Handle must be 3 to 24 characters.",
+    "handleFormat": "Use only lowercase letters, numbers and underscores.",
+    "passwordLength": "Password must be 8 to 72 characters.",
+    "passwordComplexity": "Password must contain letters and numbers.",
+    "passwordMismatch": "Passwords do not match.",
+    "bioLength": "Bio must be 500 characters or fewer.",
+    "displayNameLength": "Display name must be 64 characters or fewer."
+  },
+  "profile": {
+    "eyebrow": "Trainer Profile",
+    "emailVerified": "Email verified",
+    "emailUnverified": "Email not verified",
+    "collectionVisibility": "Collection visibility",
+    "collectionPublic": "Public — anyone can see your collection",
+    "collectionPrivate": "Private — only you can see your collection",
+    "edit": "Edit profile",
+    "editTitle": "Edit profile",
+    "viewPublic": "View public profile",
+    "bio": "Bio",
+    "bioHint": "{{length}}/500",
+    "publicCollection": "Public collection",
+    "publicCollectionHint": "Let other trainers see your creatures on your public profile.",
+    "avatar": {
+      "change": "Choose avatar",
+      "remove": "Remove avatar",
+      "hint": "JPG, PNG or WebP. Your photo is cropped to a square and resized before upload."
+    },
+    "trainer": {
+      "title": "Trainer progress",
+      "level": "Level {{level}}",
+      "progressLabel": "{{percent}}% to next level",
+      "maxLevel": "Max level reached · {{xp}} XP total",
+      "xpProgress": "{{current}} / {{needed}} XP to next level · {{total}} XP total"
+    },
+    "player": {
+      "eyebrow": "Trainer",
+      "loading": "Loading trainer...",
+      "notFound": "Trainer not found.",
+      "collection": "Collection",
+      "emptyCollection": "This trainer has no creatures yet.",
+      "privateCollection": "This trainer keeps their collection private."
+    },
+    "resendVerification": "Resend verification email",
+    "password": {
+      "title": "Change password",
+      "current": "Current password",
+      "next": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Update password",
+      "changed": "Password updated."
+    },
+    "allowances": {
+      "title": "Creature selections",
+      "hint": "How many creatures you can still select, by evolution stage. Quotas come from the server.",
+      "stage": "Stage {{stage}}",
+      "remaining": "{{remaining}} of {{total}} left",
+      "used": "{{used}} used",
+      "pvp": "PvP",
+      "pvpUnlocked": "Unlocked",
+      "pvpLocked": "Locked"
+    }
+  },
+  "collection": {
+    "eyebrow": "My Collection",
+    "title": "Your creatures",
+    "description": "Your active creature leads your team. Evolution forms are shown but locked for now.",
+    "loading": "Loading your collection...",
+    "errorTitle": "Could not load your collection",
+    "emptyTitle": "No creatures yet",
+    "emptyDescription": "Choose your starter creature to begin your collection.",
+    "open": "Open my collection",
+    "chooseStarter": "Choose your starter",
+    "active": "Active",
+    "level": "Level {{level}}",
+    "xp": "{{xp}} XP",
+    "setActive": "Set as active",
+    "evolution": {
+      "title": "Evolutions",
+      "locked": "Locked",
+      "ready": "Ready",
+      "notAvailable": "Evolving creatures is not available yet."
+    },
+    "starter": {
+      "eyebrow": "Welcome, trainer",
+      "title": "Choose your starter",
+      "description": "Pick the creature that starts your journey. It becomes your active creature.",
+      "loading": "Loading starters...",
+      "errorTitle": "Could not load the starters",
+      "alreadySelected": "You already chose a starter creature.",
+      "permanent": "Your starter choice is permanent and cannot be changed later.",
+      "confirm": "Confirm starter"
+    }
+  },
+  "gameRules": {
+    "eyebrow": "Game Rules",
+    "title": "How Battle Arena works",
+    "description": "Rules come straight from the game server. Each section shows whether it is available today or coming soon.",
+    "loading": "Loading game rules...",
+    "errorTitle": "Could not load the game rules",
+    "version": "Rules version {{version}}",
+    "planned": "Coming soon",
+    "curve": {
+      "title": "XP curve",
+      "increment": "XP increment per level: {{xp}}",
+      "level": "Level",
+      "toAdvance": "XP to advance",
+      "total": "Total XP"
+    },
+    "starters": {
+      "title": "Available starters"
+    },
+    "selection": {
+      "stage1": "Stage 1 creatures: unlocked at trainer level {{unlock}}. Your allowance equals your trainer level, up to a maximum of {{cap}}.",
+      "stage2": "Stage 2 creatures: unlocked at trainer level {{unlock}} with {{atUnlock}} allowed at unlock, plus {{increment}} more for each level after that.",
+      "stage2Through": "These rules are defined through trainer level {{through}}.",
+      "stageUnlock": "Stage {{stage}} creatures: unlocked at trainer level {{unlock}}.",
+      "stageUndefined": "Stage {{stage}} creatures: selection rules are not defined yet.",
+      "samplesTitle": "Selection allowance by trainer level",
+      "trainerLevel": "Trainer level",
+      "stage1Column": "Stage 1",
+      "stage2Column": "Stage 2"
+    },
+    "battle": {
+      "pve": "PvE (solo battles) opens at trainer level {{level}}.",
+      "pvp": "PvP (battles against other trainers) opens at trainer level {{level}}.",
+      "notPlayable": "Battles are not playable yet. These levels describe future eligibility.",
+      "playable": "Battles are playable."
+    },
+    "rewards": {
+      "title": "Trainer XP per battle result",
+      "notEarnable": "These rewards cannot be earned yet because battles are not playable.",
+      "mode": "Mode",
+      "win": "Win",
+      "loss": "Loss",
+      "pve": "PvE",
+      "pvp": "PvP",
+      "xp": "{{xp}} XP"
+    },
+    "features": {
+      "auth": "Accounts and login",
+      "profiles": "Trainer profiles",
+      "collection": "Creature collection",
+      "starter_selection": "Starter selection",
+      "creature_selection": "Creature selection",
+      "pve": "PvE battles",
+      "pvp": "PvP battles",
+      "evolution_execution": "Evolution",
+      "multiplayer": "Multiplayer",
+      "rankings": "Rankings",
+      "achievements": "Achievements"
+    },
+    "sections": {
+      "A": {
+        "title": "Trainer levels",
+        "summary": "Trainer level is your account progression, up to level {{maxLevel}}. The XP needed to advance grows by a fixed amount at each level.",
+        "points": [
+          "Every trainer begins at level {{startingLevel}} with {{startingXp}} XP (from the server).",
+          "The XP needed to advance increases by {{increment}} at every level, as published by the server.",
+          "XP is awarded only by trusted game systems on the server.",
+          "Trainer XP and creature XP are separate systems."
+        ]
+      },
+      "B": {
+        "title": "Creature selection",
+        "summary": "Selecting a creature adds a species from the catalog to your collection. How many you can select depends on your trainer level and on the creature's evolution stage.",
+        "points": [
+          "{{starterCount}} starter creatures are offered at onboarding.",
+          "Allowances are counted by a creature's original evolution stage at selection time, not its current stage."
+        ]
+      },
+      "C": {
+        "title": "Battle eligibility",
+        "summary": "Battle modes open at different trainer levels.",
+        "points": []
+      },
+      "D": {
+        "title": "Battle XP rewards",
+        "summary": "Trainer XP awarded for each battle result, as published by the server.",
+        "points": []
+      },
+      "E": {
+        "title": "Evolution and trainer level",
+        "summary": "Three different numbers exist in Battle Arena and they are never mixed up.",
+        "points": [
+          "Trainer level is your account progression. It decides how many creatures you can select and which battle modes you can enter.",
+          "Evolution stage is a property of a catalog creature (stage 1, 2 or 3). It never changes your trainer level.",
+          "Owned creature level belongs to one creature in your collection and progresses independently of your trainer level.",
+          "Evolution execution is not available until the server enables it."
+        ]
+      },
+      "F": {
+        "title": "Development status",
+        "summary": "Battle Arena is an evolving technical portfolio project. Feature availability comes from the live API rules endpoint.",
+        "points": [
+          "Rules version and feature availability are loaded from the server.",
+          "Browse the public creature catalog for the shared species reference data."
+        ]
+      }
+    }
   }
 }

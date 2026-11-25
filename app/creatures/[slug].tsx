@@ -4,6 +4,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import type { Creature } from '@/src/features/creatures/types/creature'
 import { useTranslation } from 'react-i18next'
 
+import { RequireAuth } from '@/src/features/auth'
+import { AddToCollectionButton } from '@/src/features/creatures/components/AddToCollectionButton'
 import { CreatureImage } from '@/src/features/creatures/components/CreatureImage'
 import { StatBar } from '@/src/features/creatures/components/StatBar'
 import { useCreatureDetail } from '@/src/features/creatures/hooks/useCreatureDetail'
@@ -21,6 +23,7 @@ export default function CreatureDetailScreen() {
   const state = useCreatureDetail(typeof slug === 'string' ? slug : slug[0] ?? '', retryToken)
 
   return (
+    <RequireAuth>
     <Screen>
       <Pressable onPress={() => router.back()} style={styles.back}>
         <Text style={styles.backText}>{t('navigation.back')}</Text>
@@ -41,20 +44,29 @@ export default function CreatureDetailScreen() {
 
       {state.status === 'ready' && (
         <View style={styles.content}>
-          <CreatureImage
-            name={state.creature.name}
-            imageUrl={state.creature.image_url}
-            imageRef={state.creature.image_ref}
-            style={styles.hero}
-          />
-          <Text style={styles.eyebrow}>{t('creatures.detail.eyebrow')}</Text>
-          <Text style={styles.title}>{state.creature.name}</Text>
-          <View style={styles.types}>
-            {state.creature.types.map((type) => (
-              <View key={type.id} style={styles.typeChip}>
-                <Text style={styles.typeText}>{type.name}</Text>
-              </View>
-            ))}
+          <View style={[styles.heroPanel, state.creature.is_owned ? styles.heroPanelOwned : null]}>
+            <CreatureImage
+              name={state.creature.name}
+              imageUrl={state.creature.image_url}
+              imageRef={state.creature.image_ref}
+              style={styles.hero}
+            />
+            <Text style={styles.eyebrow}>{t('creatures.detail.eyebrow')}</Text>
+            {state.creature.is_owned ? (
+              <Text style={styles.ownedBadge}>{t('creatures.detail.ownedBadge')}</Text>
+            ) : null}
+            <Text style={styles.title}>{state.creature.name}</Text>
+            <View style={styles.types}>
+              {state.creature.types.map((type) => (
+                <View key={type.id} style={styles.typeChip}>
+                  <Text style={styles.typeText}>{type.name}</Text>
+                </View>
+              ))}
+            </View>
+            <AddToCollectionButton
+              creature={state.creature}
+              onSelected={() => setRetryToken((value) => value + 1)}
+            />
           </View>
 
           <View style={styles.metrics}>
@@ -98,6 +110,7 @@ export default function CreatureDetailScreen() {
         </View>
       )}
     </Screen>
+    </RequireAuth>
   )
 }
 
@@ -173,14 +186,35 @@ const styles = StyleSheet.create({
   content: {
     gap: spacing.md,
   },
+  heroPanel: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 20,
+    borderWidth: 1,
+    gap: spacing.sm,
+    padding: spacing.md,
+  },
+  heroPanelOwned: {
+    backgroundColor: colors.ownedSurface,
+    borderColor: colors.neon,
+    borderWidth: 2,
+  },
   hero: {
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   eyebrow: {
     color: colors.ember,
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.5,
+    textTransform: 'uppercase',
+  },
+  ownedBadge: {
+    color: colors.neon,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+    marginTop: spacing.xs,
     textTransform: 'uppercase',
   },
   title: {

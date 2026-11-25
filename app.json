@@ -39,7 +39,14 @@
           }
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Battle Arena needs access to your photos so you can choose a profile avatar."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

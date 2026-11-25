@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { I18nextProvider } from 'react-i18next'
 import 'react-native-reanimated'
 
+import { AuthProvider } from '@/src/features/auth'
 import i18n from '@/src/i18n'
 import { colors } from '@/src/theme/colors'
 
@@ -26,13 +27,20 @@ const arenaTheme = {
 export default function RootLayout() {
   return (
     <I18nextProvider i18n={i18n}>
-      <ThemeProvider value={arenaTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="creatures/[slug]" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar style="light" />
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider value={arenaTheme}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="creatures/[slug]" />
+            <Stack.Screen name="forgot-password" />
+            <Stack.Screen name="reset-password" />
+            <Stack.Screen name="starter-selection" />
+            <Stack.Screen name="profile/edit" />
+            <Stack.Screen name="players/[handle]" />
+          </Stack>
+          <StatusBar style="light" />
+        </ThemeProvider>
+      </AuthProvider>
     </I18nextProvider>
   )
 }

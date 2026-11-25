@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
+import { HomeAccountActions, RequireAuth } from '@/src/features/auth'
 import { Screen } from '@/src/shared/components/Screen'
 import { apiClient } from '@/src/shared/lib/api-client'
 import { colors } from '@/src/theme/colors'
@@ -30,62 +31,66 @@ export default function HomeScreen() {
   }, [checkHealth])
 
   return (
-    <Screen>
-      <Image
-        source={require('../../assets/brand/logo_horizontal.png')}
-        style={styles.logo}
-        contentFit="contain"
-        accessibilityLabel={t('navigation.brandAlt')}
-      />
+    <RequireAuth>
+      <Screen>
+        <Image
+          source={require('../../assets/brand/logo_horizontal.png')}
+          style={styles.logo}
+          contentFit="contain"
+          accessibilityLabel={t('navigation.brandAlt')}
+        />
 
-      <Text style={styles.eyebrow}>{t('home.phase')}</Text>
-      <Text style={styles.title}>{t('home.heroTitle')}</Text>
-      <Text style={styles.subtitle}>{t('home.heroSubtitle')}</Text>
+        <Text style={styles.eyebrow}>{t('home.phase')}</Text>
+        <Text style={styles.title}>{t('home.heroTitle')}</Text>
+        <Text style={styles.subtitle}>{t('home.heroSubtitle')}</Text>
 
-      <Text style={styles.sectionEyebrow}>{t('home.modesEyebrow')}</Text>
-      <Text style={styles.sectionTitle}>{t('home.modesTitle')}</Text>
+        <HomeAccountActions />
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>{t('home.modes.solo.title')}</Text>
-        <Text style={styles.cardBody}>{t('home.modes.solo.description')}</Text>
-        <Text style={styles.badge}>{t('common.comingSoon')}</Text>
-      </View>
+        <Text style={styles.sectionEyebrow}>{t('home.modesEyebrow')}</Text>
+        <Text style={styles.sectionTitle}>{t('home.modesTitle')}</Text>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>{t('home.modes.online.title')}</Text>
-        <Text style={styles.cardBody}>{t('home.modes.online.description')}</Text>
-        <Text style={styles.badge}>{t('common.comingSoon')}</Text>
-      </View>
-
-      <Link href="/(tabs)/creatures" asChild>
-        <Pressable style={({ pressed }) => [styles.card, styles.cardActive, pressed && styles.pressed]}>
-          <Text style={styles.cardTitle}>{t('home.modes.collection.title')}</Text>
-          <Text style={styles.cardBody}>{t('home.modes.collection.description')}</Text>
-          <Text style={[styles.badge, styles.badgeActive]}>{t('common.available')}</Text>
-        </Pressable>
-      </Link>
-
-      <View style={styles.statusCard}>
-        <View>
-          <Text style={styles.statusLabel}>{t('home.status.label')}</Text>
-          <Text
-            style={[
-              styles.statusValue,
-              status === 'connected' && styles.statusOk,
-              status === 'offline' && styles.statusBad,
-              status === 'connecting' && styles.statusWarn,
-            ]}
-          >
-            {t(`home.status.${status}`)}
-          </Text>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>{t('home.modes.solo.title')}</Text>
+          <Text style={styles.cardBody}>{t('home.modes.solo.description')}</Text>
+          <Text style={styles.badge}>{t('common.comingSoon')}</Text>
         </View>
-        {status === 'offline' ? (
-          <Pressable onPress={() => void checkHealth()} style={styles.retry}>
-            <Text style={styles.retryText}>{t('common.retry')}</Text>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>{t('home.modes.online.title')}</Text>
+          <Text style={styles.cardBody}>{t('home.modes.online.description')}</Text>
+          <Text style={styles.badge}>{t('common.comingSoon')}</Text>
+        </View>
+
+        <Link href="/(tabs)/creatures" asChild>
+          <Pressable style={({ pressed }) => [styles.card, styles.cardActive, pressed && styles.pressed]}>
+            <Text style={styles.cardTitle}>{t('home.modes.collection.title')}</Text>
+            <Text style={styles.cardBody}>{t('home.modes.collection.description')}</Text>
+            <Text style={[styles.badge, styles.badgeActive]}>{t('common.available')}</Text>
           </Pressable>
-        ) : null}
-      </View>
-    </Screen>
+        </Link>
+
+        <View style={styles.statusCard}>
+          <View>
+            <Text style={styles.statusLabel}>{t('home.status.label')}</Text>
+            <Text
+              style={[
+                styles.statusValue,
+                status === 'connected' && styles.statusOk,
+                status === 'offline' && styles.statusBad,
+                status === 'connecting' && styles.statusWarn,
+              ]}
+            >
+              {t(`home.status.${status}`)}
+            </Text>
+          </View>
+          {status === 'offline' ? (
+            <Pressable onPress={() => void checkHealth()} style={styles.retry}>
+              <Text style={styles.retryText}>{t('common.retry')}</Text>
+            </Pressable>
+          ) : null}
+        </View>
+      </Screen>
+    </RequireAuth>
   )
 }
 
