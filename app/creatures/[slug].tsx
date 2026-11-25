@@ -9,6 +9,7 @@ import { AddToCollectionButton } from '@/src/features/creatures/components/AddTo
 import { CreatureImage } from '@/src/features/creatures/components/CreatureImage'
 import { StatBar } from '@/src/features/creatures/components/StatBar'
 import { useCreatureDetail } from '@/src/features/creatures/hooks/useCreatureDetail'
+import { LoadingState } from '@/src/shared/components/LoadingState'
 import { Screen } from '@/src/shared/components/Screen'
 import { formatHeight, formatWeight } from '@/src/shared/lib/formatters/creatures'
 import { currentAppLanguage } from '@/src/i18n'
@@ -29,7 +30,7 @@ export default function CreatureDetailScreen() {
         <Text style={styles.backText}>{t('navigation.back')}</Text>
       </Pressable>
 
-      {state.status === 'loading' && <Text style={styles.feedback}>{t('creatures.detail.loading')}</Text>}
+      {state.status === 'loading' && <LoadingState label={t('creatures.detail.loading')} />}
 
       {state.status === 'error' && (
         <View style={styles.errorBox}>

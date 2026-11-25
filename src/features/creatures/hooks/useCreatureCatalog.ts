@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ApiError } from '@/src/shared/lib/api-client';
+import { toUserFacingMessage } from '@/src/shared/lib/userFacingError';
 
 import { fetchCreatures, fetchCreatureTypes } from '../api/creatures';
 import type { Creature, CreatureType } from '../types';
@@ -89,7 +89,7 @@ export function useCreatureCatalog({
           return;
         }
 
-        const message = error instanceof ApiError ? error.message : t('errors.catalogLoad');
+        const message = toUserFacingMessage(error, t('errors.catalogLoad'));
         setLoadState({ key: queryKey, result: { status: 'error', message } });
       });
 

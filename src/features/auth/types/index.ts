@@ -5,6 +5,7 @@ export type {
   AuthUserResponse,
   LoginPayload,
   MessageResponse,
+  PveRecord,
   RegisterPayload,
   ResetPasswordPayload,
   SelectionAllowance,

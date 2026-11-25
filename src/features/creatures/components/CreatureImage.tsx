@@ -11,9 +11,11 @@ interface CreatureImageProps {
   imageUrl?: string | null
   imageRef?: string | null
   style?: StyleProp<ViewStyle>
+  /** When false, transparent sprite with no card chrome (arena overlays). */
+  framed?: boolean
 }
 
-export function CreatureImage({ name, imageUrl, imageRef, style }: CreatureImageProps) {
+export function CreatureImage({ name, imageUrl, imageRef, style, framed = true }: CreatureImageProps) {
   const { t } = useTranslation()
   const source = imageUrl || imageRef || null
   const [failed, setFailed] = useState(false)
@@ -26,7 +28,10 @@ export function CreatureImage({ name, imageUrl, imageRef, style }: CreatureImage
     .toUpperCase()
 
   return (
-    <View style={[styles.frame, style]} accessibilityLabel={t('creatures.image.fallback', { name })}>
+    <View
+      style={[styles.base, framed ? styles.framed : styles.bare, style]}
+      accessibilityLabel={t('creatures.image.fallback', { name })}
+    >
       {showImage ? (
         <Image
           source={{ uri: source as string }}
@@ -46,13 +51,19 @@ export function CreatureImage({ name, imageUrl, imageRef, style }: CreatureImage
 }
 
 const styles = StyleSheet.create({
-  frame: {
+  base: {
     aspectRatio: 1,
+    overflow: 'hidden',
+  },
+  framed: {
+    backgroundColor: colors.surfaceRaised,
     borderColor: colors.border,
     borderRadius: 18,
     borderWidth: 1,
-    overflow: 'hidden',
-    backgroundColor: colors.surfaceRaised,
+  },
+  bare: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   image: {
     width: '100%',

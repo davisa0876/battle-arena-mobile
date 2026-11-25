@@ -46,7 +46,8 @@
         {
           "photosPermission": "Battle Arena needs access to your photos so you can choose a profile avatar."
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,

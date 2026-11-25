@@ -30,6 +30,12 @@ export interface AuthProfile {
   collection_is_public: boolean
 }
 
+export interface PveRecord {
+  wins: number
+  losses: number
+  give_ups: number
+}
+
 export interface AuthUser {
   id: number
   email: string
@@ -37,6 +43,8 @@ export interface AuthUser {
   email_verified_at: string | null
   profile: AuthProfile | null
   trainer: TrainerProgress | null
+  /** Career PvE totals from /api/me. */
+  pve_record?: PveRecord
   onboarding: {
     starter_selected: boolean
   }

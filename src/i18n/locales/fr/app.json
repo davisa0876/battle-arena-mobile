@@ -123,9 +123,8 @@
     "notFound": "Créature introuvable.",
     "detailLoad": "Impossible de charger cette créature.",
     "missingSlug": "Slug de créature manquant.",
-    "apiBaseUrl": "EXPO_PUBLIC_API_BASE_URL n'est pas configuré",
-    "apiOffline": "Impossible de se connecter à l'API",
-    "httpStatus": "La requête API a échoué avec le statut {{status}}",
+    "apiOffline": "Impossible de se connecter. Vérifiez votre connexion et réessayez.",
+    "server": "Un problème est survenu de notre côté. Veuillez réessayer.",
     "validation": "Vérifiez les champs signalés.",
     "unauthenticated": "Votre session a expiré. Veuillez vous reconnecter.",
     "forbidden": "Vous n'avez pas l'autorisation de faire cela.",
@@ -400,5 +399,108 @@
         ]
       }
     }
+  },
+  "pve": {
+    "eyebrow": "Combat solo",
+    "title": "Arène PvE",
+    "pickDescription": "Choisissez une créature. Vous attaquez en premier ; l'IA réagit.",
+    "start": "Lancer le combat",
+    "level": "Niv. {{level}}",
+    "meta": "Tour {{round}} · {{phase}}",
+    "badge": {
+      "round": "Tour {{round}}"
+    },
+    "resources": {
+      "hp": "PV",
+      "stamina": "Endurance"
+    },
+    "phases": {
+      "awaiting_player_attack": "Votre tour",
+      "awaiting_player_defense": "Défense",
+      "finished": "Terminé"
+    },
+    "movePp": "PP {{pp}}/{{ppMax}}",
+    "moveMeta": "Puiss. {{power}} · End. {{stamina}} · PP {{pp}}/{{ppMax}}",
+    "actions": {
+      "moveHelp": "{{name}} inflige {{power}} de puissance {{type}} ({{class}}). Coûte {{stamina}} d'endurance et 1 PP. Précision {{accuracy}} %.",
+      "useMove": "Utiliser {{move}}",
+      "useDefense": "Utiliser {{defense}}",
+      "basicStrike": "Frappe de base",
+      "basicStrikeHelp": "Attaque de base gratuite (puissance 20). Ne coûte ni endurance ni PP.",
+      "recoverSkip": "Récupérer de l’endurance",
+      "recoverSkipHelp": "Passez cette attaque pour récupérer 15 d’endurance. L’adversaire attaque quand même ensuite.",
+      "useBasicStrike": "Utiliser Frappe de base",
+      "useRecoverSkip": "Récupérer et passer l’attaque"
+    },
+    "defense": {
+      "endure": {
+        "label": "Endurer",
+        "hint": "0 end. · dégâts complets",
+        "description": "Subissez le coup à plein dégâts sans dépenser d'endurance. Idéal pour économiser pour plus tard."
+      },
+      "block": {
+        "label": "Bloquer",
+        "hint": "10 end. · moitié des dégâts",
+        "description": "Dépensez 10 d'endurance pour réduire environ de moitié les dégâts reçus. Mitigation fiable."
+      },
+      "dodge": {
+        "label": "Esquiver",
+        "hint": "20 end. · 60 % d'évitement",
+        "description": "Dépensez 20 d'endurance pour 60 % de chances d'éviter totalement l'attaque. Risqué mais puissant."
+      },
+      "recover": {
+        "label": "Récupérer",
+        "hint": "0 end. · +15 endurance",
+        "description": "Récupérez 15 d'endurance au lieu de vous défendre. Vous prenez le coup, mais rechargez pour riposter."
+      }
+    },
+    "log": {
+      "title": "Journal de combat",
+      "empty": "Aucun combat pour l'instant.",
+      "started": "Le combat a commencé.",
+      "round": "Tour {{round}}",
+      "attacker": "ATTAQUANT :",
+      "defender": "DÉFENSEUR :",
+      "usedAttack": "{{name}} utilise {{attack}}.",
+      "attackCost": "Coût : -{{stamina}} end., -{{pp}} PP",
+      "usedDefense": "{{name}} utilise {{defense}}.",
+      "damageReduced": "Dégâts réduits de {{percent}} %.",
+      "missed": "L'attaque a raté.",
+      "dodged": "L'attaque a été esquivée.",
+      "damage": "{{damage}} PV de dégâts.",
+      "hpRemaining": "{{name}} : {{before}} → {{after}} PV",
+      "fainted": "{{name}} est K.O. !",
+      "recoverSkip": "{{name}} a passé l’attaque et récupéré {{stamina}} d’endurance."
+    },
+    "intro": {
+      "started": "Le combat commence ! À vous !",
+      "preparing": "Les combattants entrent dans l'arène..."
+    },
+    "audio": {
+      "sound": "Sons de combat",
+      "music": "Musique"
+    },
+    "record": {
+      "wins": "{{count}} victoires",
+      "losses": "{{count}} défaites",
+      "giveUps": "{{count}} abandons"
+    },
+    "arenaBanner": {
+      "victory": "Victoire",
+      "youLose": "Tu as perdu"
+    },
+    "result": {
+      "win": "Victoire !",
+      "loss": "Défaite",
+      "gaveUp": "Abandon",
+      "xp": "+{{xp}} XP dresseur",
+      "again": "Nouveau combat"
+    },
+    "errors": {
+      "loadCollection": "Impossible de charger votre collection.",
+      "start": "Impossible de lancer le combat.",
+      "action": "Impossible de résoudre cette action."
+    },
+    "moveStaminaCost": "{{stamina}} end"
   }
 }

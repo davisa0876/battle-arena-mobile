@@ -115,7 +115,7 @@ function toApiError(response: Response, body: unknown): ApiError {
   }
 
   return new ApiError(
-    serverMessage(body) ?? i18n.t('errors.httpStatus', { status: response.status }),
+    serverMessage(body) ?? (response.status >= 500 ? i18n.t('errors.server') : i18n.t('errors.unexpected')),
     response.status,
   );
 }
@@ -127,7 +127,7 @@ async function request<T>(
   options: RequestOptions = {},
 ): Promise<T> {
   if (!API_BASE_URL) {
-    throw new ApiError(i18n.t('errors.apiBaseUrl'));
+    throw new ApiError(i18n.t('errors.unexpected'), undefined, new Error('EXPO_PUBLIC_API_BASE_URL is not configured'));
   }
 
   const headers: Record<string, string> = {

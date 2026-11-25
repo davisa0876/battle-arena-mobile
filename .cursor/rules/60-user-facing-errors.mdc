@@ -1,0 +1,30 @@
+---
+description: Never show technical API errors to players (Horus-aligned)
+globs: src/**/*.{ts,tsx}
+alwaysApply: true
+---
+
+# User-facing errors (Horus pattern)
+
+Players must never see raw transport/debug text in Alerts, banners, or screens.
+
+## Do not show in UI
+- Timeout / HTTP status internals
+- `EXPO_PUBLIC_*` env names
+- Stack traces, `AbortError`, native exception text
+
+## Do instead
+- Log with `console.error` (and future Crashlytics)
+- Use `toUserFacingMessage(error, fallback)` from `shared/lib/userFacingError`
+- Keep `ApiError.message` as localized product copy only
+
+```ts
+// ❌ BAD
+Alert.alert('Error', String(error))
+
+// ✅ GOOD
+Alert.alert(t('common.retry'), toUserFacingMessage(error, t('errors.catalogLoad')))
+```
+
+## Reference
+Horus platform-app: map network/timeout/5xx → i18n; show API `message` only for deliberate domain errors.

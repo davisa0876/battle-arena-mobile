@@ -49,11 +49,13 @@ export default function HomeScreen() {
         <Text style={styles.sectionEyebrow}>{t('home.modesEyebrow')}</Text>
         <Text style={styles.sectionTitle}>{t('home.modesTitle')}</Text>
 
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>{t('home.modes.solo.title')}</Text>
-          <Text style={styles.cardBody}>{t('home.modes.solo.description')}</Text>
-          <Text style={styles.badge}>{t('common.comingSoon')}</Text>
-        </View>
+        <Link href="/pve" asChild>
+          <Pressable style={({ pressed }) => [styles.card, styles.cardActive, pressed && styles.pressed]}>
+            <Text style={styles.cardTitle}>{t('home.modes.solo.title')}</Text>
+            <Text style={styles.cardBody}>{t('home.modes.solo.description')}</Text>
+            <Text style={[styles.badge, styles.badgeActive]}>{t('common.available')}</Text>
+          </Pressable>
+        </Link>
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{t('home.modes.online.title')}</Text>

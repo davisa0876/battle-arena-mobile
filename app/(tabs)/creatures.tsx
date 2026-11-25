@@ -15,6 +15,7 @@ import { RequireAuth } from '@/src/features/auth'
 import { AddToCollectionButton } from '@/src/features/creatures/components/AddToCollectionButton'
 import { CreatureImage } from '@/src/features/creatures/components/CreatureImage'
 import { useCreatureCatalog, useCreatureTypes } from '@/src/features/creatures/hooks/useCreatureCatalog'
+import { LoadingState } from '@/src/shared/components/LoadingState'
 import { colors } from '@/src/theme/colors'
 import { spacing } from '@/src/theme/spacing'
 
@@ -107,7 +108,7 @@ export default function CreaturesScreen() {
             </View>
 
             {loadState.status === 'loading' && (
-              <Text style={styles.feedback}>{t('creatures.catalog.loading')}</Text>
+              <LoadingState label={t('creatures.catalog.loading')} />
             )}
             {loadState.status === 'error' && (
               <View style={styles.errorBox}>
