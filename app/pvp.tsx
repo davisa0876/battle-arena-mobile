@@ -11,6 +11,9 @@ import {
 import { useTranslation } from 'react-i18next'
 
 import { RequireAuth } from '@/src/features/auth'
+import { fetchMyCreatures } from '@/src/features/collection/api/collection'
+import type { OwnedCreature } from '@/src/features/collection/types'
+import { readyPvpRoom, selectPvpCreature } from '@/src/features/pvp/api/pvpBattles'
 import {
   acceptPvpInvitation,
   cancelPvpInvitation,
@@ -35,12 +38,15 @@ export default function PvpLobbyScreen() {
   const [received, setReceived] = useState<PvpInvitation[]>([])
   const [sent, setSent] = useState<PvpInvitation[]>([])
   const [room, setRoom] = useState<PvpRoom | null>(null)
+  const [creatures, setCreatures] = useState<OwnedCreature[]>([])
+  const [selectedOwnedId, setSelectedOwnedId] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [realtimeStatus, setRealtimeStatus] = useState<'connecting' | 'ready' | 'closed' | 'error'>('connecting')
   const roomRef = useRef<PvpRoom | null>(null)
   const sessionRef = useRef<PvpRealtimeSession | null>(null)
+  const readyKeyRef = useRef<string | null>(null)
 
   useEffect(() => {
     roomRef.current = room
@@ -71,7 +77,12 @@ export default function PvpLobbyScreen() {
     let cancelled = false
     void (async () => {
       try {
-        await refresh()
+        const [ownedPayload] = await Promise.all([fetchMyCreatures(), refresh()])
+        if (!cancelled) {
+          const owned = ownedPayload.data ?? []
+          setCreatures(owned)
+          setSelectedOwnedId(owned.find((c) => c.is_active)?.id ?? owned[0]?.id ?? null)
+        }
       } catch (err) {
         if (!cancelled) {
           setError(toUserFacingMessage(err, t('pvp.errors.loadFailed')))
@@ -104,9 +115,14 @@ export default function PvpLobbyScreen() {
               await refresh()
               return
             }
-            if (hint.type === 'pvp.room.changed' && hint.roomId) {
+            if ((hint.type === 'pvp.room.changed' || hint.type === 'pvp.battle.changed') && hint.roomId) {
               const current = roomRef.current
-              if (current && hint.version !== undefined && hint.version <= current.version) {
+              if (
+                hint.type === 'pvp.room.changed' &&
+                current &&
+                hint.version !== undefined &&
+                hint.version <= current.version
+              ) {
                 return
               }
               await rehydrateRoom(hint.roomId)
@@ -271,6 +287,40 @@ export default function PvpLobbyScreen() {
                 {member.player?.display_name ?? member.player?.handle ?? member.user_id} ({member.role})
               </Text>
             ))}
+            {(room.status === 'ready' || room.status === 'in_battle') && !room.my_selection?.locked ? (
+              <View style={{ marginTop: spacing.md, gap: spacing.sm }}>
+                <Text style={styles.meta}>{t('pvp.lobby.selectCreature')}</Text>
+                {creatures.map((owned) => (
+                  <Pressable
+                    key={owned.id}
+                    disabled={busy}
+                    onPress={() =>
+                      void runAction(async () => {
+                        setSelectedOwnedId(owned.id)
+                        const next = await selectPvpCreature(room.id, {
+                          owned_creature_id: owned.id,
+                          expected_room_version: room.version,
+                        })
+                        await rehydrateRoom(next.id)
+                      })
+                    }
+                    style={[
+                      styles.secondaryButton,
+                      (selectedOwnedId ?? room.my_selection?.owned_creature_id) === owned.id
+                        ? { borderColor: colors.ember }
+                        : null,
+                    ]}
+                  >
+                    <Text style={styles.secondaryButtonText}>
+                      {owned.creature.name} · Lv {owned.level}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+            {room.my_selection?.locked ? (
+              <Text style={[styles.meta, { marginTop: spacing.sm }]}>{t('pvp.lobby.locked')}</Text>
+            ) : null}
             <View style={styles.row}>
               <Pressable
                 disabled={busy}
@@ -279,6 +329,36 @@ export default function PvpLobbyScreen() {
               >
                 <Text style={styles.secondaryButtonText}>{t('pvp.actions.refresh')}</Text>
               </Pressable>
+              {room.allowed_actions.includes('ready') ? (
+                <Pressable
+                  disabled={busy || !room.my_selection}
+                  onPress={() =>
+                    void runAction(async () => {
+                      const key = readyKeyRef.current ?? `pvp-ready-${room.id}`
+                      readyKeyRef.current = key
+                      const next = await readyPvpRoom(room.id, { expected_room_version: room.version }, key)
+                      readyKeyRef.current = null
+                      await rehydrateRoom(next.id)
+                      const battleId = next.battle_id ?? next.battle?.id
+                      if (battleId) {
+                        router.push(`/pvp/battles/${battleId}`)
+                      }
+                    })
+                  }
+                  style={styles.primaryButton}
+                >
+                  <Text style={styles.primaryButtonText}>{t('pvp.lobby.ready')}</Text>
+                </Pressable>
+              ) : null}
+              {room.battle_id ? (
+                <Pressable
+                  disabled={busy}
+                  onPress={() => router.push(`/pvp/battles/${room.battle_id}`)}
+                  style={styles.primaryButton}
+                >
+                  <Text style={styles.primaryButtonText}>{t('pvp.lobby.enterBattle')}</Text>
+                </Pressable>
+              ) : null}
               {room.allowed_actions.includes('leave') ? (
                 <Pressable
                   disabled={busy}
@@ -289,9 +369,9 @@ export default function PvpLobbyScreen() {
                       await refresh()
                     })
                   }
-                  style={styles.primaryButton}
+                  style={styles.secondaryButton}
                 >
-                  <Text style={styles.primaryButtonText}>{t('pvp.actions.leave')}</Text>
+                  <Text style={styles.secondaryButtonText}>{t('pvp.actions.leave')}</Text>
                 </Pressable>
               ) : null}
             </View>

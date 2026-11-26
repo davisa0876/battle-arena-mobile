@@ -24,7 +24,7 @@
     "eyebrow": "Multigiocatore privato",
     "title": "Lobby PvP",
     "subtitle": "Invita un allenatore con handle esatto in una lobby privata.",
-    "phaseNote": "Lobby privata pronta — la battaglia arriva in una fase successiva.",
+    "phaseNote": "Scegli una creatura, blocca Pronto, poi entra nella battaglia autorevole.",
     "form": {
       "handleLabel": "Handle allenatore",
       "handlePlaceholder": "altrolallenatore",
@@ -38,7 +38,12 @@
     },
     "lobby": {
       "title": "Lobby attuale",
-      "status": "Stato: {{status}}"
+      "status": "Stato: {{status}}",
+      "selectCreature": "Scegli la tua creatura",
+      "locked": "Selezione bloccata",
+      "waitingReady": "In attesa dell'altro allenatore…",
+      "ready": "Pronto",
+      "enterBattle": "Entra in battaglia"
     },
     "realtime": {
       "status": "Realtime: {{status}}"
@@ -53,7 +58,25 @@
     "errors": {
       "loadFailed": "Impossibile caricare le lobby private.",
       "createFailed": "Impossibile creare l'invito.",
-      "actionFailed": "Impossibile completare l'azione."
+      "actionFailed": "Impossibile completare l'azione.",
+      "loadBattle": "Impossibile caricare questa battaglia PvP.",
+      "stale": "Lo stato della battaglia e cambiato — aggiornato."
+    },
+    "battle": {
+      "loss": "Sconfitta",
+      "turn": "Turno {{turn}}",
+      "win": "Vittoria!",
+      "basicStrike": "Colpo base",
+      "phase": "Fase: {{phase}}",
+      "title": "Arena PvP privata",
+      "defend": "Difendi",
+      "backLobby": "Torna alla lobby",
+      "pendingAttack": "Attacco in arrivo: {{move}}",
+      "xp": "+{{xp}} XP",
+      "loading": "Caricamento battaglia…",
+      "recover": "Recupero",
+      "attack": "Attacca",
+      "waitingOpponent": "In attesa dell'altro allenatore…"
     }
   },
   "home": {
@@ -69,7 +92,7 @@
       },
       "online": {
         "title": "Battaglia online",
-        "description": "Invita un allenatore per handle in una lobby privata. Il combattimento arriverà dopo."
+        "description": "Invita un allenatore per handle in una lobby privata e combatti in PvP autorevole."
       },
       "collection": {
         "title": "Collezione creature",

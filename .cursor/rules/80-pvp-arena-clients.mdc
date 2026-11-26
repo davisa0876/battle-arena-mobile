@@ -1,0 +1,13 @@
+---
+description: Phase 5B.3 private PvP arena client rules (Expo)
+globs: "{app/pvp/**/*.{ts,tsx},src/features/pvp/**/*.{ts,tsx}}"
+alwaysApply: false
+---
+
+# PvP Arena Clients (Expo)
+
+- REST is authority. `pvp.battle.changed` only schedules rehydrate. Never apply HP/XP/winner from the socket.
+- One `PvpRealtimeSession` for lobby + battle; new ticket/grant after reconnect.
+- Gate controls with `allowed_actions` / `can_use`. Stable Idempotency-Key for the same logical retry; on 409 rehydrate without auto-resubmit.
+- AppState background/resume and back navigation must not forfeit (5B.4). Keep docks visible above the home indicator; log scrollable.
+- Display server `rewards` XP only. Keep authorization intact even while `features.pvp` is false.

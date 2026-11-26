@@ -24,7 +24,7 @@
     "eyebrow": "Multijogador privado",
     "title": "Lobby PvP",
     "subtitle": "Convide um treinador pelo handle exato para uma lobby privada.",
-    "phaseNote": "Lobby privada pronta — o combate chega em uma fase posterior.",
+    "phaseNote": "Escolha uma criatura, confirme Pronto e entre na batalha autoritativa.",
     "form": {
       "handleLabel": "Handle do treinador",
       "handlePlaceholder": "outrotreinador",
@@ -38,7 +38,12 @@
     },
     "lobby": {
       "title": "Lobby atual",
-      "status": "Status: {{status}}"
+      "status": "Status: {{status}}",
+      "selectCreature": "Escolha sua criatura",
+      "locked": "Selecao bloqueada",
+      "waitingReady": "Aguardando o outro treinador…",
+      "ready": "Pronto",
+      "enterBattle": "Entrar na batalha"
     },
     "realtime": {
       "status": "Tempo real: {{status}}"
@@ -51,9 +56,27 @@
       "refresh": "Atualizar"
     },
     "errors": {
-      "loadFailed": "Não foi possível carregar as lobbies privadas.",
-      "createFailed": "Não foi possível criar o convite.",
-      "actionFailed": "Não foi possível concluir essa ação."
+      "loadFailed": "Nao foi possivel carregar os lobbies privados.",
+      "createFailed": "Nao foi possivel criar o convite.",
+      "actionFailed": "Nao foi possivel concluir essa acao.",
+      "loadBattle": "Nao foi possivel carregar esta batalha PvP.",
+      "stale": "O estado da batalha mudou — atualizado."
+    },
+    "battle": {
+      "loss": "Derrota",
+      "turn": "Turno {{turn}}",
+      "win": "Vitoria!",
+      "basicStrike": "Golpe basico",
+      "phase": "Fase: {{phase}}",
+      "title": "Arena PvP privada",
+      "defend": "Defender",
+      "backLobby": "Voltar ao lobby",
+      "pendingAttack": "Ataque recebido: {{move}}",
+      "xp": "+{{xp}} XP",
+      "loading": "Carregando batalha…",
+      "recover": "Recuperar",
+      "attack": "Atacar",
+      "waitingOpponent": "Aguardando o outro treinador…"
     }
   },
   "home": {
@@ -69,7 +92,7 @@
       },
       "online": {
         "title": "Batalha online",
-        "description": "Convide um treinador pelo handle para um lobby privado. O combate vem depois."
+        "description": "Convide um treinador pelo handle para um lobby privado e lute PvP autoritativo."
       },
       "collection": {
         "title": "Coleção de criaturas",

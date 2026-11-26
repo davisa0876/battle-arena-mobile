@@ -15,6 +15,8 @@ Expo React Native client for Battle Arena.
 - Five languages: `en`, `fr`, `pt-BR`, `it`, `es`
 - Catalog/detail from Laravel API with remote `image_url`
 - Neutral placeholder when artwork is missing/fails
+- Phase 5B.3 private PvP: lobby selection/Ready on `/pvp`, arena on `/pvp/battles/[battleId]` (REST authority + WS hints)
+- Smoke notes: `../battle-arena-api/docs/PHASE5B3_TWO_CLIENT_UI_SMOKE.md`
 
 ## Setup
 

@@ -24,7 +24,7 @@
     "eyebrow": "Multijugador privado",
     "title": "Lobby JcJ",
     "subtitle": "Invita a un entrenador por handle exacto a un lobby privado.",
-    "phaseNote": "Lobby privado listo — el combate llega en una fase posterior.",
+    "phaseNote": "Elige una criatura, confirma Listo y entra al combate autoritativo.",
     "form": {
       "handleLabel": "Handle del entrenador",
       "handlePlaceholder": "otroentrenador",
@@ -38,7 +38,12 @@
     },
     "lobby": {
       "title": "Lobby actual",
-      "status": "Estado: {{status}}"
+      "status": "Estado: {{status}}",
+      "selectCreature": "Elige tu criatura",
+      "locked": "Seleccion bloqueada",
+      "waitingReady": "Esperando al otro entrenador…",
+      "ready": "Listo",
+      "enterBattle": "Entrar al combate"
     },
     "realtime": {
       "status": "Tiempo real: {{status}}"
@@ -52,8 +57,26 @@
     },
     "errors": {
       "loadFailed": "No se pudieron cargar los lobbies privados.",
-      "createFailed": "No se pudo crear la invitación.",
-      "actionFailed": "No se pudo completar esa acción."
+      "createFailed": "No se pudo crear la invitacion.",
+      "actionFailed": "No se pudo completar esa accion.",
+      "loadBattle": "No se pudo cargar este combate JcJ.",
+      "stale": "El estado del combate cambio — actualizado."
+    },
+    "battle": {
+      "loss": "Derrota",
+      "turn": "Turno {{turn}}",
+      "win": "Victoria!",
+      "basicStrike": "Golpe basico",
+      "phase": "Fase: {{phase}}",
+      "title": "Arena JcJ privada",
+      "defend": "Defender",
+      "backLobby": "Volver al lobby",
+      "pendingAttack": "Ataque entrante: {{move}}",
+      "xp": "+{{xp}} XP",
+      "loading": "Cargando combate…",
+      "recover": "Recuperar",
+      "attack": "Atacar",
+      "waitingOpponent": "Esperando al otro entrenador…"
     }
   },
   "home": {
@@ -69,7 +92,7 @@
       },
       "online": {
         "title": "Batalla online",
-        "description": "Invita a un entrenador por alias a un lobby privado. El combate llega después."
+        "description": "Invita a un entrenador por handle a un lobby privado y combate JcJ autoritativo."
       },
       "collection": {
         "title": "Colección de criaturas",

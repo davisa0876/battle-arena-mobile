@@ -24,7 +24,7 @@
     "eyebrow": "Multijoueur privé",
     "title": "Salon JcJ",
     "subtitle": "Invitez un dresseur par pseudo exact dans un salon privé.",
-    "phaseNote": "Salon privé prêt — le combat arrive dans une phase ultérieure.",
+    "phaseNote": "Choisissez une creature, verrouillez Pret, puis entrez dans le combat autoritatif.",
     "form": {
       "handleLabel": "Pseudo du dresseur",
       "handlePlaceholder": "autredresseur",
@@ -38,7 +38,12 @@
     },
     "lobby": {
       "title": "Salon actuel",
-      "status": "Statut : {{status}}"
+      "status": "Statut : {{status}}",
+      "selectCreature": "Choisissez votre creature",
+      "locked": "Selection verrouillee",
+      "waitingReady": "En attente de l'autre dresseur…",
+      "ready": "Pret",
+      "enterBattle": "Entrer dans le combat"
     },
     "realtime": {
       "status": "Temps réel : {{status}}"
@@ -51,9 +56,27 @@
       "refresh": "Actualiser"
     },
     "errors": {
-      "loadFailed": "Impossible de charger les salons privés.",
-      "createFailed": "Impossible de créer l'invitation.",
-      "actionFailed": "Impossible de terminer cette action."
+      "loadFailed": "Impossible de charger les salons prives.",
+      "createFailed": "Impossible de creer l'invitation.",
+      "actionFailed": "Impossible de terminer cette action.",
+      "loadBattle": "Impossible de charger ce combat JcJ.",
+      "stale": "L'etat du combat a change — actualise."
+    },
+    "battle": {
+      "loss": "Defaite",
+      "turn": "Tour {{turn}}",
+      "win": "Victoire !",
+      "basicStrike": "Frappe de base",
+      "phase": "Phase : {{phase}}",
+      "title": "Arene JcJ privee",
+      "defend": "Defendre",
+      "backLobby": "Retour au salon",
+      "pendingAttack": "Attaque entrante : {{move}}",
+      "xp": "+{{xp}} XP",
+      "loading": "Chargement du combat…",
+      "recover": "Recuperation",
+      "attack": "Attaquer",
+      "waitingOpponent": "En attente de l'autre dresseur…"
     }
   },
   "home": {
@@ -69,7 +92,7 @@
       },
       "online": {
         "title": "Combat en ligne",
-        "description": "Invitez un dresseur par pseudo dans un salon privé. Le combat viendra plus tard."
+        "description": "Invitez un dresseur par pseudo dans un salon prive, puis combattez en JcJ autoritatif."
       },
       "collection": {
         "title": "Collection de créatures",

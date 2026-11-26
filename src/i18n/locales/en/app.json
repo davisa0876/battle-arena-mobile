@@ -127,7 +127,7 @@
     "eyebrow": "Private multiplayer",
     "title": "PvP Lobby",
     "subtitle": "Invite one trainer by exact handle into a private lobby.",
-    "phaseNote": "Private lobby ready — battle mode comes in a later phase.",
+    "phaseNote": "Select an owned creature, lock Ready, then enter the authoritative battle.",
     "form": {
       "handleLabel": "Trainer handle",
       "handlePlaceholder": "othertrainer",
@@ -141,7 +141,28 @@
     },
     "lobby": {
       "title": "Current lobby",
-      "status": "Status: {{status}}"
+      "status": "Status: {{status}}",
+      "selectCreature": "Choose your creature",
+      "locked": "Selection locked",
+      "waitingReady": "Waiting for the other trainer…",
+      "ready": "Ready",
+      "enterBattle": "Enter battle"
+    },
+    "battle": {
+      "title": "Private PvP Arena",
+      "loading": "Loading battle…",
+      "phase": "Phase: {{phase}}",
+      "turn": "Turn {{turn}}",
+      "waitingOpponent": "Waiting for the other trainer…",
+      "pendingAttack": "Incoming attack: {{move}}",
+      "basicStrike": "Basic Strike",
+      "backLobby": "Back to lobby",
+      "attack": "Attack",
+      "defend": "Defend",
+      "recover": "Recover skip",
+      "win": "Victory!",
+      "loss": "Defeat",
+      "xp": "+{{xp}} XP"
     },
     "realtime": {
       "status": "Realtime: {{status}}"
@@ -156,7 +177,9 @@
     "errors": {
       "loadFailed": "Could not load private lobbies.",
       "createFailed": "Could not create the invitation.",
-      "actionFailed": "Could not complete that action."
+      "actionFailed": "Could not complete that action.",
+      "loadBattle": "Could not load this PvP battle.",
+      "stale": "Battle state changed — refreshed."
     }
   },
   "home": {
@@ -172,7 +195,7 @@
       },
       "online": {
         "title": "Online Battle",
-        "description": "Invite a trainer by handle into a private lobby. Combat comes later."
+        "description": "Invite a trainer by handle into a private lobby, then fight an authoritative PvP battle."
       },
       "collection": {
         "title": "Creature Collection",
