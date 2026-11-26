@@ -1,0 +1,12 @@
+---
+description: Expo private PvP lobby clients and websocket hygiene
+globs: "{app/pvp.tsx,src/features/pvp/**/*.{ts,tsx}}"
+alwaysApply: false
+---
+
+# PvP Lobby Clients (Expo)
+
+- Keep `app/pvp.tsx` thin; API + realtime session live under `src/features/pvp`.
+- REST rehydrate on every invitation/room hint. Websocket is best-effort.
+- Use Laravel tickets + room grants. Never treat `connection.ready` as room membership.
+- No PvP combat, rankings, or XP UI in Phase 5B.1 — show honest lobby-ready copy.

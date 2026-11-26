@@ -57,11 +57,13 @@ export default function HomeScreen() {
           </Pressable>
         </Link>
 
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>{t('home.modes.online.title')}</Text>
-          <Text style={styles.cardBody}>{t('home.modes.online.description')}</Text>
-          <Text style={styles.badge}>{t('common.comingSoon')}</Text>
-        </View>
+        <Link href="/pvp" asChild>
+          <Pressable style={({ pressed }) => [styles.card, styles.cardActive, pressed && styles.pressed]}>
+            <Text style={styles.cardTitle}>{t('home.modes.online.title')}</Text>
+            <Text style={styles.cardBody}>{t('home.modes.online.description')}</Text>
+            <Text style={[styles.badge, styles.badgeActive]}>{t('common.available')}</Text>
+          </Pressable>
+        </Link>
 
         <Link href="/(tabs)/creatures" asChild>
           <Pressable style={({ pressed }) => [styles.card, styles.cardActive, pressed && styles.pressed]}>

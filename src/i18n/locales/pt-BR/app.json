@@ -20,6 +20,42 @@
     "register": "Cadastro",
     "gameRules": "Regras do jogo"
   },
+  "pvp": {
+    "eyebrow": "Multijogador privado",
+    "title": "Lobby PvP",
+    "subtitle": "Convide um treinador pelo handle exato para uma lobby privada.",
+    "phaseNote": "Lobby privada pronta — o combate chega em uma fase posterior.",
+    "form": {
+      "handleLabel": "Handle do treinador",
+      "handlePlaceholder": "outrotreinador",
+      "submit": "Enviar convite"
+    },
+    "inbox": {
+      "received": "Convites recebidos",
+      "sent": "Convites enviados",
+      "emptyReceived": "Nenhum convite recebido.",
+      "emptySent": "Nenhum convite enviado."
+    },
+    "lobby": {
+      "title": "Lobby atual",
+      "status": "Status: {{status}}"
+    },
+    "realtime": {
+      "status": "Tempo real: {{status}}"
+    },
+    "actions": {
+      "accept": "Aceitar",
+      "decline": "Recusar",
+      "cancel": "Cancelar",
+      "leave": "Sair da lobby",
+      "refresh": "Atualizar"
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar as lobbies privadas.",
+      "createFailed": "Não foi possível criar o convite.",
+      "actionFailed": "Não foi possível concluir essa ação."
+    }
+  },
   "home": {
     "phase": "Redesign",
     "heroTitle": "Battle Arena",
@@ -33,7 +69,7 @@
       },
       "online": {
         "title": "Batalha online",
-        "description": "Enfrente jogadores do mundo inteiro em tempo real."
+        "description": "Convide um treinador pelo handle para um lobby privado. O combate vem depois."
       },
       "collection": {
         "title": "Coleção de criaturas",

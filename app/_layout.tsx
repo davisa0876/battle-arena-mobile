@@ -37,6 +37,8 @@ export default function RootLayout() {
             <Stack.Screen name="starter-selection" />
             <Stack.Screen name="profile/edit" />
             <Stack.Screen name="players/[handle]" />
+            <Stack.Screen name="pve" />
+            <Stack.Screen name="pvp" />
           </Stack>
           <StatusBar style="light" />
         </ThemeProvider>
