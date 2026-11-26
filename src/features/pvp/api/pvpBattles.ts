@@ -79,3 +79,20 @@ export async function submitPvpDefend(
   }
   return { battle: data as PvpBattle, rewards: null }
 }
+
+export async function submitPvpForfeit(
+  battleId: string,
+  body: { expected_version: number },
+  idempotencyKey: string,
+): Promise<{ battle: PvpBattle; rewards: PvpBattle['rewards'] }> {
+  const payload = await apiClient.post(`/api/pvp/battles/${encodeURIComponent(battleId)}/forfeit`, {
+    ...body,
+    idempotency_key: idempotencyKey,
+  })
+  const data = unwrapData<{ battle: PvpBattle; rewards?: PvpBattle['rewards'] } | PvpBattle>(payload)
+  if (data && typeof data === 'object' && 'battle' in data) {
+    return { battle: data.battle, rewards: data.rewards ?? null }
+  }
+  return { battle: data as PvpBattle, rewards: null }
+}
+

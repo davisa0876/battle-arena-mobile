@@ -11,3 +11,6 @@ alwaysApply: false
 - Gate controls with `allowed_actions` / `can_use`. Stable Idempotency-Key for the same logical retry; on 409 rehydrate without auto-resubmit.
 - AppState background/resume and back navigation must not forfeit (5B.4). Keep docks visible above the home indicator; log scrollable.
 - Display server `rewards` XP only. Keep authorization intact even while `features.pvp` is false.
+- Forfeit only via confirmed Alert/dialog; never from AppState background or back navigation.
+- `action_deadline_at` countdown is visual only; REST adjudication is authoritative when enabled.
+- WS/error states must not claim forfeit — say reconnecting and that the turn timer may continue.

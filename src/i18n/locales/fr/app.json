@@ -76,7 +76,16 @@
       "loading": "Chargement du combat…",
       "recover": "Recuperation",
       "attack": "Attaquer",
-      "waitingOpponent": "En attente de l'autre dresseur…"
+      "waitingOpponent": "En attente de l'autre dresseur…",
+      "deadline": "Delai d action : {{time}}",
+      "deadlineYours": "Votre delai : {{time}}",
+      "forfeit": "Abandonner",
+      "forfeitConfirmTitle": "Abandonner ce combat ?",
+      "forfeitConfirmBody": "Vous perdrez. XP proposee 0/0. Irreversible.",
+      "forfeitConfirm": "Confirmer",
+      "forfeitCancel": "Continuer",
+      "endReason": "Fin : {{reason}}",
+      "connectionInterrupted": "Connexion interrompue ; reconnexion. Le minuteur peut continuer."
     }
   },
   "home": {

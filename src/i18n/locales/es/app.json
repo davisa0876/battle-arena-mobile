@@ -76,7 +76,16 @@
       "loading": "Cargando combate…",
       "recover": "Recuperar",
       "attack": "Atacar",
-      "waitingOpponent": "Esperando al otro entrenador…"
+      "waitingOpponent": "Esperando al otro entrenador…",
+      "deadline": "Limite: {{time}}",
+      "deadlineYours": "Tu limite: {{time}}",
+      "forfeit": "Rendirse",
+      "forfeitConfirmTitle": "¿Rendirse?",
+      "forfeitConfirmBody": "Perderas. XP propuesta 0/0. No se puede deshacer.",
+      "forfeitConfirm": "Confirmar",
+      "forfeitCancel": "Seguir",
+      "endReason": "Termino por: {{reason}}",
+      "connectionInterrupted": "Conexion interrumpida; reconectando. El temporizador puede continuar."
     }
   },
   "home": {

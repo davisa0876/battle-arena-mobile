@@ -1,6 +1,7 @@
 import { router } from 'expo-router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native'
+import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 const arenaBackground = require('../assets/pve/arena-bg.jpg')
@@ -96,7 +97,7 @@ function RecordSummary({
   t,
 }: {
   record?: PveRecord | null
-  t: (key: string, opts?: Record<string, unknown>) => string
+  t: TFunction
 }) {
   if (!record) return null
   return (
@@ -114,7 +115,7 @@ function RecordSummary({
   )
 }
 
-function CombatLog({ entries, t }: { entries: CombatLogEntry[]; t: (key: string, opts?: Record<string, unknown>) => string }) {
+function CombatLog({ entries, t }: { entries: CombatLogEntry[]; t: TFunction }) {
   const latest = [...entries].reverse()
   if (latest.length === 0) {
     return <Text style={styles.logEmpty}>{t('pve.log.empty')}</Text>

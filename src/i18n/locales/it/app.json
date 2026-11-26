@@ -76,7 +76,16 @@
       "loading": "Caricamento battaglia…",
       "recover": "Recupero",
       "attack": "Attacca",
-      "waitingOpponent": "In attesa dell'altro allenatore…"
+      "waitingOpponent": "In attesa dell'altro allenatore…",
+      "deadline": "Scadenza: {{time}}",
+      "deadlineYours": "La tua scadenza: {{time}}",
+      "forfeit": "Resa",
+      "forfeitConfirmTitle": "Rese?",
+      "forfeitConfirmBody": "Perderai. XP proposta 0/0. Irreversibile.",
+      "forfeitConfirm": "Conferma",
+      "forfeitCancel": "Continua",
+      "endReason": "Terminata per: {{reason}}",
+      "connectionInterrupted": "Connessione interrotta; riconnessione. Il timer puo continuare."
     }
   },
   "home": {

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  Alert,
   AppState,
   Pressable,
   ScrollView,
@@ -19,7 +20,9 @@ import {
   newIdempotencyKey,
   submitPvpAttack,
   submitPvpDefend,
+  submitPvpForfeit,
 } from '@/src/features/pvp/api/pvpBattles'
+import { formatDeadlineCountdown } from '@/src/features/pvp/lib/pvpDeadlineLabel'
 import { issuePvpRoomGrant, issueRealtimeTicket } from '@/src/features/pvp/api/pvpLobbies'
 import { attackFallback, myXp, viewerOutcome } from '@/src/features/pvp/lib/pvpActionPolicy'
 import { PvpRealtimeSession } from '@/src/features/pvp/lib/pvpRealtimeSession'
@@ -43,6 +46,7 @@ export default function PvpBattleScreen() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [realtimeStatus, setRealtimeStatus] = useState('connecting')
+  const [nowMs, setNowMs] = useState(() => Date.now())
   const battleRef = useRef<PvpBattle | null>(null)
   const pendingKeyRef = useRef<string | null>(null)
   const hydrateLock = useRef(false)
@@ -99,6 +103,12 @@ export default function PvpBattleScreen() {
     })
     return () => sub.remove()
   }, [hydrate])
+
+  useEffect(() => {
+    if (!battle?.action_deadline_at || battle.phase === 'finished') return
+    const timer = setInterval(() => setNowMs(Date.now()), 1000)
+    return () => clearInterval(timer)
+  }, [battle?.action_deadline_at, battle?.phase])
 
   useEffect(() => {
     if (!battle || battle.phase === 'finished') return
@@ -160,6 +170,10 @@ export default function PvpBattleScreen() {
     battle.phase === 'awaiting_attack' &&
     (fallback.canAttackMove || fallback.canBasicStrike || fallback.canRecoverSkip)
   const spriteSize = Math.min(140, width * 0.34)
+  const deadlineLabel = formatDeadlineCountdown(battle.action_deadline_at, nowMs)
+  const deadlineIsMine =
+    !!battle.deadline_actor_user_id && !!battle.me && battle.deadline_actor_user_id === battle.me.user_id
+  const canForfeit = battle.phase !== 'finished' && battle.allowed_actions.includes('forfeit')
 
   return (
     <ScrollView
@@ -172,6 +186,16 @@ export default function PvpBattleScreen() {
         {t('pvp.battle.phase', { phase: battle.phase })} · {t('pvp.battle.turn', { turn: battle.turn_number })} ·{' '}
         {t('pvp.realtime.status', { status: realtimeStatus })}
       </Text>
+      {deadlineLabel && battle.phase !== 'finished' ? (
+        <Text style={[styles.meta, deadlineIsMine ? styles.deadlineMine : null]}>
+          {deadlineIsMine
+            ? t('pvp.battle.deadlineYours', { time: deadlineLabel })
+            : t('pvp.battle.deadline', { time: deadlineLabel })}
+        </Text>
+      ) : null}
+      {realtimeStatus === 'error' || realtimeStatus === 'closed' ? (
+        <Text style={styles.meta}>{t('pvp.battle.connectionInterrupted')}</Text>
+      ) : null}
       {error ? <Text style={styles.error}>{error}</Text> : null}
       {battle.pending_attack && defending ? (
         <Text style={styles.pending}>
@@ -219,11 +243,46 @@ export default function PvpBattleScreen() {
         )}
       </View>
 
+      {canForfeit ? (
+        <Pressable
+          style={[styles.dangerButton, { marginTop: spacing.md }]}
+          disabled={busy}
+          accessibilityRole="button"
+          accessibilityLabel={t('pvp.battle.forfeit')}
+          onPress={() => {
+            Alert.alert(t('pvp.battle.forfeitConfirmTitle'), t('pvp.battle.forfeitConfirmBody'), [
+              { text: t('pvp.battle.forfeitCancel'), style: 'cancel' },
+              {
+                text: t('pvp.battle.forfeitConfirm'),
+                style: 'destructive',
+                onPress: () => {
+                  void runMutation(async (key) => {
+                    const result = await submitPvpForfeit(
+                      battle.id,
+                      { expected_version: battle.version },
+                      key,
+                    )
+                    return result.rewards
+                      ? { ...result.battle, rewards: result.rewards }
+                      : result.battle
+                  })
+                },
+              },
+            ])
+          }}
+        >
+          <Text style={styles.dangerButtonText}>{t('pvp.battle.forfeit')}</Text>
+        </Pressable>
+      ) : null}
+
       {battle.phase === 'finished' ? (
         <View style={styles.result}>
           <Text style={styles.title}>
             {outcome === 'win' ? t('pvp.battle.win') : outcome === 'loss' ? t('pvp.battle.loss') : t('pvp.battle.title')}
           </Text>
+          {battle.outcome?.end_reason ? (
+            <Text style={styles.meta}>{t('pvp.battle.endReason', { reason: battle.outcome.end_reason })}</Text>
+          ) : null}
           {typeof xp === 'number' ? <Text style={styles.xp}>{t('pvp.battle.xp', { xp })}</Text> : null}
           <Pressable style={styles.primaryButton} onPress={() => router.push('/pvp')}>
             <Text style={styles.primaryButtonText}>{t('pvp.battle.backLobby')}</Text>
@@ -369,4 +428,14 @@ const styles = StyleSheet.create({
   primaryButtonText: { color: '#000', fontWeight: '700', textAlign: 'center' },
   secondaryButton: { borderWidth: 1, borderColor: colors.border, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14 },
   secondaryButtonText: { color: colors.text, textAlign: 'center' },
+  dangerButton: {
+    borderWidth: 1,
+    borderColor: colors.danger,
+    backgroundColor: 'rgba(220,38,38,0.12)',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+  },
+  dangerButtonText: { color: colors.danger, fontWeight: '700', textAlign: 'center' },
+  deadlineMine: { color: '#fbbf24', fontWeight: '700' },
 })

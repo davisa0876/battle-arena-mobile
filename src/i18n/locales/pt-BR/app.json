@@ -76,7 +76,16 @@
       "loading": "Carregando batalha…",
       "recover": "Recuperar",
       "attack": "Atacar",
-      "waitingOpponent": "Aguardando o outro treinador…"
+      "waitingOpponent": "Aguardando o outro treinador…",
+      "deadline": "Prazo: {{time}}",
+      "deadlineYours": "Seu prazo: {{time}}",
+      "forfeit": "Desistir",
+      "forfeitConfirmTitle": "Desistir?",
+      "forfeitConfirmBody": "Voce perde. XP proposta 0/0. Nao pode ser desfeito.",
+      "forfeitConfirm": "Confirmar",
+      "forfeitCancel": "Continuar",
+      "endReason": "Encerrado por: {{reason}}",
+      "connectionInterrupted": "Conexao interrompida; reconectando. O temporizador pode continuar."
     }
   },
   "home": {

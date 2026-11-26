@@ -162,7 +162,16 @@
       "recover": "Recover skip",
       "win": "Victory!",
       "loss": "Defeat",
-      "xp": "+{{xp}} XP"
+      "xp": "+{{xp}} XP",
+      "deadline": "Action deadline: {{time}}",
+      "deadlineYours": "Your action deadline: {{time}}",
+      "forfeit": "Forfeit battle",
+      "forfeitConfirmTitle": "Forfeit this battle?",
+      "forfeitConfirmBody": "You will lose. Proposed private-MVP XP is 0 for both. This cannot be undone.",
+      "forfeitConfirm": "Confirm forfeit",
+      "forfeitCancel": "Keep fighting",
+      "endReason": "Ended by: {{reason}}",
+      "connectionInterrupted": "Connection interrupted; reconnecting. Your turn timer may continue."
     },
     "realtime": {
       "status": "Realtime: {{status}}"

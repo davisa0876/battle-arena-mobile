@@ -44,6 +44,8 @@ export type PvpBattle = {
     move_slug: string | null
     is_basic_strike: boolean
   } | null
+  action_deadline_at?: string | null
+  deadline_actor_user_id?: number | null
   me: PvpCombatant | null
   opponent: PvpCombatant | null
   allowed_actions: string[]
@@ -52,6 +54,8 @@ export type PvpBattle = {
     winner_user_id: number | null
     loser_user_id: number | null
     end_reason: string | null
+    forfeiting_user_id?: number | null
+    timed_out_user_id?: number | null
   } | null
   rewards?: Array<{ user_id: number; outcome: string; xp_awarded: number }> | null
 }
