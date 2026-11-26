@@ -20,6 +20,7 @@ import {
   cancelPvpInvitation,
   createPvpRoom,
   declinePvpInvitation,
+  fetchCurrentPvpLobby,
   fetchPvpRoom,
   issuePvpRoomGrant,
   issueRealtimeTicket,
@@ -143,15 +144,24 @@ export default function PvpLobbyScreen() {
         void (async () => {
           try {
             if (hint.type === 'pvp.invitation.changed') {
-              const [inbox, outbox] = await Promise.all([
+              const [inbox, outbox, lobby] = await Promise.all([
                 listPvpInvitations('received'),
                 listPvpInvitations('sent'),
+                fetchCurrentPvpLobby(),
               ])
               setReceived(inbox)
               setSent(outbox)
-              const accepted = outbox.find((item) => item.status === 'accepted' && item.room_id)
-              if (accepted?.room_id) {
-                await rehydrateRoom(accepted.room_id)
+              const readyRoomId = findReadyLobbyRoomId(lobby)
+              if (readyRoomId) {
+                await rehydrateRoom(readyRoomId)
+              } else if (lobby?.status === 'waiting_for_guest') {
+                setRoom(lobby)
+              } else if (
+                hint.invitationStatus &&
+                hint.invitationStatus !== 'pending' &&
+                hint.invitationStatus !== 'accepted'
+              ) {
+                setRoom(null)
               }
               return
             }
@@ -203,17 +213,21 @@ export default function PvpLobbyScreen() {
     void rehydrateRoom(focusRoomId)
   }, [params.focusRoomId, rehydrateRoom])
 
-  // Fallback when opening /pvp without params but an accepted ready lobby exists.
+  // Fallback when opening /pvp without params but a ready/in_battle lobby exists.
   useEffect(() => {
     if (loading || room || params.focusRoomId) {
       return
     }
-    const readyRoomId = findReadyLobbyRoomId(received, sent)
-    if (!readyRoomId) {
-      return
-    }
-    void rehydrateRoom(readyRoomId)
-  }, [loading, room, params.focusRoomId, received, sent, rehydrateRoom])
+    void (async () => {
+      const lobby = await fetchCurrentPvpLobby()
+      const readyRoomId = findReadyLobbyRoomId(lobby)
+      if (readyRoomId) {
+        await rehydrateRoom(readyRoomId)
+      } else if (lobby?.status === 'waiting_for_guest') {
+        setRoom(lobby)
+      }
+    })()
+  }, [loading, room, params.focusRoomId, rehydrateRoom])
 
   async function inviteByHandle(rawHandle: string) {
     setBusy(true)

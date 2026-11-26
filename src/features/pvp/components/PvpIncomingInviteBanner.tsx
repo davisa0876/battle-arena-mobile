@@ -8,7 +8,7 @@ import { useAuth } from '@/src/features/auth'
 import {
   acceptPvpInvitation,
   declinePvpInvitation,
-  fetchPvpRoom,
+  fetchCurrentPvpLobby,
   issueRealtimeTicket,
   listPvpInvitations,
 } from '@/src/features/pvp/api/pvpLobbies'
@@ -56,6 +56,8 @@ export function PvpIncomingInviteBanner() {
   const dismissedDeclinedRef = useRef<Set<string>>(new Set())
   const dismissedAcceptedRef = useRef<Set<string>>(new Set())
   const declinedRef = useRef<DeclinedAlert[]>([])
+  const pendingDeclineHintRef = useRef<{ invitationId: string; status?: string } | null>(null)
+  const viewerUserId = user?.id
 
   const refresh = useCallback(async () => {
     if (!enabled) {
@@ -63,32 +65,36 @@ export function PvpIncomingInviteBanner() {
       return
     }
     try {
-      const [received, sent] = await Promise.all([
+      const declineHint = pendingDeclineHintRef.current
+      pendingDeclineHintRef.current = null
+
+      const [received, sent, lobby] = await Promise.all([
         listPvpInvitations('received'),
         listPvpInvitations('sent'),
+        fetchCurrentPvpLobby(),
       ])
       const incoming: Alert[] = received.filter(isActionableIncoming).map((invite) => ({
         kind: 'incoming' as const,
         invite,
       }))
       const accepted: Alert[] = []
-      for (const invite of sent.filter((item) => item.status === 'accepted' && item.room_id).slice(0, 3)) {
-        if (dismissedAcceptedRef.current.has(invite.room_id)) {
-          continue
-        }
-        try {
-          const room = await fetchPvpRoom(invite.room_id)
-          if (room.status === 'ready' || room.status === 'in_battle') {
-            accepted.push({
-              kind: 'accepted',
-              roomId: room.id,
-              handle: invite.invitee?.handle ?? invite.invitee?.display_name ?? 'trainer',
-              room,
-            })
-          }
-        } catch {
-          // ignore closed rooms
-        }
+      const isHost =
+        viewerUserId != null &&
+        (lobby?.host?.id === viewerUserId ||
+          lobby?.members.some((member) => member.user_id === viewerUserId && member.role === 'host'))
+      if (
+        lobby &&
+        isHost &&
+        (lobby.status === 'ready' || lobby.status === 'in_battle') &&
+        !dismissedAcceptedRef.current.has(lobby.id)
+      ) {
+        const other = lobby.members.find((member) => member.user_id !== viewerUserId)
+        accepted.push({
+          kind: 'accepted',
+          roomId: lobby.id,
+          handle: other?.player?.handle ?? other?.player?.display_name ?? 'trainer',
+          room: lobby,
+        })
       }
 
       const nextPending = new Map<string, string>()
@@ -105,15 +111,16 @@ export function PvpIncomingInviteBanner() {
         pendingSentRef.current = nextPending
         primedSentRef.current = true
       } else {
-        for (const [id, handle] of pendingSentRef.current) {
-          if (nextPending.has(id) || dismissedDeclinedRef.current.has(id)) {
-            continue
-          }
-          const latest = sent.find((invite) => invite.id === id)
-          if (latest?.status === 'declined') {
-            if (!declinedRef.current.some((alert) => alert.invitationId === id)) {
-              declinedRef.current = [...declinedRef.current, { kind: 'declined', invitationId: id, handle }]
-            }
+        const hintId = declineHint?.invitationId
+        if (
+          hintId &&
+          declineHint?.status === 'declined' &&
+          pendingSentRef.current.has(hintId) &&
+          !dismissedDeclinedRef.current.has(hintId)
+        ) {
+          const handle = pendingSentRef.current.get(hintId) ?? 'trainer'
+          if (!declinedRef.current.some((alert) => alert.invitationId === hintId)) {
+            declinedRef.current = [...declinedRef.current, { kind: 'declined', invitationId: hintId, handle }]
           }
         }
         pendingSentRef.current = nextPending
@@ -127,7 +134,7 @@ export function PvpIncomingInviteBanner() {
     } catch {
       // best-effort
     }
-  }, [enabled])
+  }, [enabled, viewerUserId])
 
   useEffect(() => {
     if (!enabled) {
@@ -146,6 +153,12 @@ export function PvpIncomingInviteBanner() {
       issueTicket: issueRealtimeTicket,
       issueGrant: async () => ({ grant: '' }),
       onHint: (hint) => {
+        if (hint.type === 'pvp.invitation.changed' && hint.invitationId && hint.invitationStatus) {
+          pendingDeclineHintRef.current = {
+            invitationId: hint.invitationId,
+            status: hint.invitationStatus,
+          }
+        }
         if (
           hint.type === 'pvp.invitation.changed' ||
           hint.type === 'pvp.room.changed' ||

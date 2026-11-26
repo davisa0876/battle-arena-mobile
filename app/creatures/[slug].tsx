@@ -99,6 +99,57 @@ export default function CreatureDetailScreen() {
           />
           <StatBar label={t('creatures.stats.speed')} value={state.creature.base_stats.speed} />
 
+          {state.creature.combat ? (
+            <View style={styles.combatSection}>
+              <Text style={styles.statsTitle}>{t('creatures.detail.attacksTitle')}</Text>
+              <Text style={styles.evolutionsHint}>{t('creatures.detail.attacksHint')}</Text>
+              {state.creature.combat.attacks.length === 0 ? (
+                <Text style={styles.evolutionsHint}>{t('creatures.detail.attacksEmpty')}</Text>
+              ) : (
+                state.creature.combat.attacks.map((move) => (
+                  <View key={move.slug} style={styles.combatCard}>
+                    <View style={styles.combatCardHeader}>
+                      <Text style={styles.combatName}>{move.name}</Text>
+                      <Text style={styles.combatType}>{move.type_slug}</Text>
+                    </View>
+                    <Text style={styles.combatMeta}>
+                      {t('creatures.detail.attackMeta', {
+                        power: move.power,
+                        stamina: move.stamina_cost,
+                        pp: move.pp,
+                        class: move.damage_class,
+                        accuracy: move.accuracy,
+                      })}
+                    </Text>
+                  </View>
+                ))
+              )}
+
+              <Text style={styles.statsTitle}>{t('creatures.detail.defensesTitle')}</Text>
+              <Text style={styles.evolutionsHint}>{t('creatures.detail.defensesHint')}</Text>
+              {state.creature.combat.defenses.map((defense) => (
+                <View key={defense.slug} style={styles.combatCard}>
+                  <View style={styles.combatCardHeader}>
+                    <Text style={styles.combatName}>
+                      {t(`creatures.detail.defenseNames.${defense.slug}`, { defaultValue: defense.name })}
+                    </Text>
+                    <Text style={styles.combatType}>
+                      {t('creatures.detail.staminaCost', { stamina: defense.stamina_cost })}
+                    </Text>
+                  </View>
+                  <Text style={styles.combatMeta}>
+                    {t(`creatures.detail.defenseBlurb.${defense.slug}`, {
+                      multiplier: defense.damage_multiplier ?? 1,
+                      chance:
+                        defense.success_chance != null ? Math.round(defense.success_chance * 100) : 0,
+                      restore: defense.stamina_restore ?? 0,
+                    })}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+
           {(state.creature.evolutions?.length ?? 0) > 0 && (
             <View style={styles.evolutions}>
               <Text style={styles.statsTitle}>{t('creatures.detail.evolutionsTitle')}</Text>
@@ -313,5 +364,40 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     marginTop: spacing.sm,
     paddingLeft: spacing.md,
+  },
+  combatSection: {
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  combatCard: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 14,
+    borderWidth: 1,
+    gap: spacing.xs,
+    padding: spacing.md,
+  },
+  combatCardHeader: {
+    alignItems: 'baseline',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+  },
+  combatName: {
+    color: colors.text,
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  combatType: {
+    color: colors.ember,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  combatMeta: {
+    color: colors.textMuted,
+    fontSize: 12,
   },
 })
