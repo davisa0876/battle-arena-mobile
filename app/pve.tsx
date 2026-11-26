@@ -34,6 +34,7 @@ const DEFENSE_TONES = {
 } as const
 
 import { RequireAuth, useAuth } from '@/src/features/auth'
+import { TrainerCard } from '@/src/features/profile/components/TrainerCard'
 import { fetchMyCreatures } from '@/src/features/collection/api/collection'
 import type { OwnedCreature } from '@/src/features/collection/types/collection'
 import { CreatureImage } from '@/src/features/creatures/components/CreatureImage'
@@ -374,6 +375,7 @@ export default function PveScreen() {
         </Pressable>
         <Text style={styles.eyebrow}>{t('pve.eyebrow')}</Text>
         <Text style={styles.title}>{t('pve.title')}</Text>
+        {user?.trainer ? <TrainerCard trainer={user.trainer} /> : null}
         <RecordSummary record={battle?.record ?? user?.pve_record} t={t} />
 
         <View style={styles.audioRow}>

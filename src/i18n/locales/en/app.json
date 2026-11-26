@@ -189,6 +189,36 @@
       "actionFailed": "Could not complete that action.",
       "loadBattle": "Could not load this PvP battle.",
       "stale": "Battle state changed — refreshed."
+    },
+    "record": {
+      "wins": "{{count}} wins",
+      "losses": "{{count}} losses",
+      "forfeits": "{{count}} forfeits"
+    },
+    "matchmaking": {
+      "inviteByHandle": "Send invitation",
+      "findOnline": "Find online opponent",
+      "onlineTitle": "Online opponents",
+      "onlineEmpty": "No online opponents right now. Eligible trainers appear online while logged in on any screen — or invite by handle.",
+      "onlineHint": "Tap a trainer to send a private invitation.",
+      "onlineLevel": "Lv. {{level}}",
+      "refreshOnline": "Refresh list"
+    },
+    "alert": {
+      "region": "Incoming PvP invitations",
+      "eyebrow": "PvP invitation",
+      "body": "@{{handle}} invited you to a private lobby.",
+      "openLobby": "Open lobby",
+      "acceptedEyebrow": "Invite accepted",
+      "acceptedBody": "@{{handle}} accepted your private invite.",
+      "nextStepInvitee": "Accept from any screen — you will go to the PvP lobby to choose your creature, then lock Ready for battle.",
+      "nextStepHost": "Open the lobby, pick your creature, lock Ready, then enter battle.",
+      "chooseCreatures": "Choose creatures",
+      "declinedEyebrow": "Invite declined",
+      "declinedBody": "@{{handle}} declined your private invite.",
+      "declinedNext": "You are free to invite another trainer.",
+      "sendAnother": "Send another invite",
+      "dismiss": "Dismiss"
     }
   },
   "home": {
@@ -497,6 +527,8 @@
     "battle": {
       "pve": "PvE (solo battles) opens at trainer level {{level}}.",
       "pvp": "PvP (battles against other trainers) opens at trainer level {{level}}.",
+      "pvpOnlineAuthenticated": "PvP online presence: while you are logged in and meet the PvP level, you appear online on any screen — you do not need to stay on the PvP lobby.",
+      "pvpOnlineLobbyOnly": "PvP online presence: you only appear online while the PvP lobby screen is open.",
       "notPlayable": "Battles are not playable yet. These levels describe future eligibility.",
       "playable": "Battles are playable."
     },

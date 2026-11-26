@@ -5,6 +5,8 @@ import { I18nextProvider } from 'react-i18next'
 import 'react-native-reanimated'
 
 import { AuthProvider } from '@/src/features/auth'
+import { PvpIncomingInviteBanner } from '@/src/features/pvp/components/PvpIncomingInviteBanner'
+import { PvpPresenceKeeper } from '@/src/features/pvp/components/PvpPresenceKeeper'
 import i18n from '@/src/i18n'
 import { colors } from '@/src/theme/colors'
 
@@ -39,7 +41,10 @@ export default function RootLayout() {
             <Stack.Screen name="players/[handle]" />
             <Stack.Screen name="pve" />
             <Stack.Screen name="pvp" />
+            <Stack.Screen name="pvp/battles/[battleId]" />
           </Stack>
+          <PvpPresenceKeeper />
+          <PvpIncomingInviteBanner />
           <StatusBar style="light" />
         </ThemeProvider>
       </AuthProvider>

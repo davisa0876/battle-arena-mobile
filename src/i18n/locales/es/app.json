@@ -86,6 +86,36 @@
       "forfeitCancel": "Seguir",
       "endReason": "Termino por: {{reason}}",
       "connectionInterrupted": "Conexion interrumpida; reconectando. El temporizador puede continuar."
+    },
+    "record": {
+      "wins": "{{count}} victorias",
+      "losses": "{{count}} derrotas",
+      "forfeits": "{{count}} rendiciones"
+    },
+    "matchmaking": {
+      "inviteByHandle": "Enviar invitacion",
+      "findOnline": "Buscar oponente en linea",
+      "onlineTitle": "Oponentes en linea",
+      "onlineEmpty": "No hay oponentes en linea. Los entrenadores elegibles aparecen online mientras esten conectados en cualquier pantalla — o invita por handle.",
+      "onlineHint": "Toca un entrenador para enviar una invitacion privada.",
+      "onlineLevel": "Nv. {{level}}",
+      "refreshOnline": "Actualizar"
+    },
+    "alert": {
+      "region": "Invitaciones JcJ entrantes",
+      "eyebrow": "Invitacion JcJ",
+      "body": "@{{handle}} te invito a un lobby privado.",
+      "openLobby": "Abrir lobby",
+      "acceptedEyebrow": "Invitacion aceptada",
+      "acceptedBody": "@{{handle}} acepto tu invitacion privada.",
+      "nextStepInvitee": "Acepta desde cualquier pantalla: iras al lobby PvP a elegir criatura y luego bloquear Listo.",
+      "nextStepHost": "Abre el lobby, elige criatura, bloquea Listo y entra a la batalla.",
+      "chooseCreatures": "Elegir criaturas",
+      "declinedEyebrow": "Invitacion rechazada",
+      "declinedBody": "@{{handle}} rechazo tu invitacion privada.",
+      "declinedNext": "Puedes invitar a otro entrenador.",
+      "sendAnother": "Enviar otra invitacion",
+      "dismiss": "Cerrar"
     }
   },
   "home": {
@@ -393,6 +423,8 @@
     "battle": {
       "pve": "El PvE (combates en solitario) se abre en el nivel de entrenador {{level}}.",
       "pvp": "El PvP (combates contra otros entrenadores) se abre en el nivel de entrenador {{level}}.",
+      "pvpOnlineAuthenticated": "Presencia online en PvP: si estas conectado y cumples el nivel de PvP, apareces online en cualquier pantalla — no hace falta quedarse en el lobby de PvP.",
+      "pvpOnlineLobbyOnly": "Presencia online en PvP: solo apareces online mientras la pantalla del lobby de PvP este abierta.",
       "notPlayable": "Los combates aún no son jugables. Estos niveles describen el acceso futuro.",
       "playable": "Los combates son jugables."
     },

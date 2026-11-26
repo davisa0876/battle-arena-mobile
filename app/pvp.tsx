@@ -1,4 +1,4 @@
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
@@ -10,7 +10,8 @@ import {
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
-import { RequireAuth } from '@/src/features/auth'
+import { RequireAuth, useAuth } from '@/src/features/auth'
+import { TrainerCard } from '@/src/features/profile/components/TrainerCard'
 import { fetchMyCreatures } from '@/src/features/collection/api/collection'
 import type { OwnedCreature } from '@/src/features/collection/types'
 import { readyPvpRoom, selectPvpCreature } from '@/src/features/pvp/api/pvpBattles'
@@ -24,9 +25,13 @@ import {
   issueRealtimeTicket,
   leavePvpRoom,
   listPvpInvitations,
+  listPvpOnlineOpponents,
 } from '@/src/features/pvp/api/pvpLobbies'
+import { findReadyLobbyRoomId } from '@/src/features/pvp/lib/findReadyLobbyRoomId'
 import { PvpRealtimeSession } from '@/src/features/pvp/lib/pvpRealtimeSession'
-import type { PvpInvitation, PvpRoom } from '@/src/features/pvp/types'
+import type { PvpInvitation, PvpOnlineOpponent, PvpRoom } from '@/src/features/pvp/types'
+
+type InviteMode = 'handle' | 'online'
 import { Screen } from '@/src/shared/components/Screen'
 import { toUserFacingMessage } from '@/src/shared/lib/userFacingError'
 import { colors } from '@/src/theme/colors'
@@ -34,7 +39,12 @@ import { spacing } from '@/src/theme/spacing'
 
 export default function PvpLobbyScreen() {
   const { t } = useTranslation()
+  const { user, refreshUser } = useAuth()
+  const params = useLocalSearchParams<{ focusRoomId?: string; fromInviteAccept?: string }>()
   const [handle, setHandle] = useState('')
+  const [inviteMode, setInviteMode] = useState<InviteMode>('handle')
+  const [online, setOnline] = useState<PvpOnlineOpponent[]>([])
+  const [onlineLoading, setOnlineLoading] = useState(false)
   const [received, setReceived] = useState<PvpInvitation[]>([])
   const [sent, setSent] = useState<PvpInvitation[]>([])
   const [room, setRoom] = useState<PvpRoom | null>(null)
@@ -61,6 +71,28 @@ export default function PvpLobbyScreen() {
     setSent(outbox)
   }, [])
 
+  const refreshOnline = useCallback(async () => {
+    setOnlineLoading(true)
+    try {
+      setOnline(await listPvpOnlineOpponents())
+    } catch (err) {
+      setError(toUserFacingMessage(err, t('pvp.errors.loadFailed')))
+    } finally {
+      setOnlineLoading(false)
+    }
+  }, [t])
+
+  useEffect(() => {
+    if (inviteMode !== 'online') {
+      return
+    }
+    void refreshOnline()
+    const timer = setInterval(() => {
+      void refreshOnline()
+    }, 15_000)
+    return () => clearInterval(timer)
+  }, [inviteMode, refreshOnline])
+
   const rehydrateRoom = useCallback(async (roomId: string) => {
     try {
       const next = await fetchPvpRoom(roomId)
@@ -77,7 +109,11 @@ export default function PvpLobbyScreen() {
     let cancelled = false
     void (async () => {
       try {
-        const [ownedPayload] = await Promise.all([fetchMyCreatures(), refresh()])
+        const [ownedPayload] = await Promise.all([
+          fetchMyCreatures(),
+          refresh(),
+          refreshUser().catch(() => null),
+        ])
         if (!cancelled) {
           const owned = ownedPayload.data ?? []
           setCreatures(owned)
@@ -96,7 +132,7 @@ export default function PvpLobbyScreen() {
     return () => {
       cancelled = true
     }
-  }, [refresh, t])
+  }, [refresh, refreshUser, t])
 
   useEffect(() => {
     const session = new PvpRealtimeSession({
@@ -107,7 +143,16 @@ export default function PvpLobbyScreen() {
         void (async () => {
           try {
             if (hint.type === 'pvp.invitation.changed') {
-              await refresh()
+              const [inbox, outbox] = await Promise.all([
+                listPvpInvitations('received'),
+                listPvpInvitations('sent'),
+              ])
+              setReceived(inbox)
+              setSent(outbox)
+              const accepted = outbox.find((item) => item.status === 'accepted' && item.room_id)
+              if (accepted?.room_id) {
+                await rehydrateRoom(accepted.room_id)
+              }
               return
             }
             if (hint.type === 'room.subscription.revoked') {
@@ -149,19 +194,47 @@ export default function PvpLobbyScreen() {
     void sessionRef.current.subscribeRoom(room.id).catch(() => undefined)
   }, [room, realtimeStatus])
 
-  async function onCreate() {
+  // Banner accept / "choose creatures" lands here with focusRoomId → creature select.
+  useEffect(() => {
+    const focusRoomId = typeof params.focusRoomId === 'string' ? params.focusRoomId : null
+    if (!focusRoomId) {
+      return
+    }
+    void rehydrateRoom(focusRoomId)
+  }, [params.focusRoomId, rehydrateRoom])
+
+  // Fallback when opening /pvp without params but an accepted ready lobby exists.
+  useEffect(() => {
+    if (loading || room || params.focusRoomId) {
+      return
+    }
+    const readyRoomId = findReadyLobbyRoomId(received, sent)
+    if (!readyRoomId) {
+      return
+    }
+    void rehydrateRoom(readyRoomId)
+  }, [loading, room, params.focusRoomId, received, sent, rehydrateRoom])
+
+  async function inviteByHandle(rawHandle: string) {
     setBusy(true)
     setError('')
     try {
-      const result = await createPvpRoom(handle.trim())
+      const result = await createPvpRoom(rawHandle.trim())
       setRoom(result.room)
       setHandle('')
       await refresh()
+      if (inviteMode === 'online') {
+        await refreshOnline()
+      }
     } catch (err) {
       setError(toUserFacingMessage(err, t('pvp.errors.createFailed')))
     } finally {
       setBusy(false)
     }
+  }
+
+  async function onCreate() {
+    await inviteByHandle(handle)
   }
 
   async function runAction(action: () => Promise<void>) {
@@ -189,27 +262,103 @@ export default function PvpLobbyScreen() {
         <Text style={styles.phaseNote}>{t('pvp.phaseNote')}</Text>
         <Text style={styles.realtime}>{t('pvp.realtime.status', { status: realtimeStatus })}</Text>
 
+        {user?.trainer ? <TrainerCard trainer={user.trainer} /> : null}
+        {user?.pvp_record ? (
+          <View style={styles.recordRow}>
+            <Text style={[styles.recordChip, styles.recordWin]}>
+              {t('pvp.record.wins', { count: user.pvp_record.wins })}
+            </Text>
+            <Text style={[styles.recordChip, styles.recordLoss]}>
+              {t('pvp.record.losses', { count: user.pvp_record.losses })}
+            </Text>
+            <Text style={[styles.recordChip, styles.recordForfeit]}>
+              {t('pvp.record.forfeits', { count: user.pvp_record.forfeits })}
+            </Text>
+          </View>
+        ) : null}
+
         {loading ? <ActivityIndicator color={colors.ember} style={{ marginTop: spacing.xl }} /> : null}
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <Text style={styles.label}>{t('pvp.form.handleLabel')}</Text>
-        <TextInput
-          value={handle}
-          onChangeText={setHandle}
-          autoCapitalize="none"
-          autoCorrect={false}
-          editable={!busy}
-          placeholder={t('pvp.form.handlePlaceholder')}
-          placeholderTextColor={colors.textMuted}
-          style={styles.input}
-        />
-        <Pressable
-          disabled={busy || handle.trim().length < 3}
-          onPress={() => void onCreate()}
-          style={({ pressed }) => [styles.primaryButton, (busy || handle.trim().length < 3) && styles.disabled, pressed && styles.pressed]}
-        >
-          <Text style={styles.primaryButtonText}>{t('pvp.form.submit')}</Text>
-        </Pressable>
+        <View style={styles.modeRow}>
+          <Pressable
+            disabled={busy}
+            onPress={() => setInviteMode('handle')}
+            style={[styles.modeButton, inviteMode === 'handle' && styles.modeButtonActive, busy && styles.disabled]}
+          >
+            <Text style={[styles.modeButtonText, inviteMode === 'handle' && styles.modeButtonTextActive]}>
+              {t('pvp.matchmaking.inviteByHandle')}
+            </Text>
+          </Pressable>
+          <Pressable
+            disabled={busy}
+            onPress={() => setInviteMode('online')}
+            style={[styles.modeButton, inviteMode === 'online' && styles.modeButtonActive, busy && styles.disabled]}
+          >
+            <Text style={[styles.modeButtonText, inviteMode === 'online' && styles.modeButtonTextActive]}>
+              {t('pvp.matchmaking.findOnline')}
+            </Text>
+          </Pressable>
+        </View>
+
+        {inviteMode === 'handle' ? (
+          <>
+            <Text style={styles.label}>{t('pvp.form.handleLabel')}</Text>
+            <TextInput
+              value={handle}
+              onChangeText={setHandle}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!busy}
+              placeholder={t('pvp.form.handlePlaceholder')}
+              placeholderTextColor={colors.textMuted}
+              style={styles.input}
+            />
+            <Pressable
+              disabled={busy || handle.trim().length < 3}
+              onPress={() => void onCreate()}
+              style={({ pressed }) => [styles.primaryButton, (busy || handle.trim().length < 3) && styles.disabled, pressed && styles.pressed]}
+            >
+              <Text style={styles.primaryButtonText}>{t('pvp.form.submit')}</Text>
+            </Pressable>
+          </>
+        ) : (
+          <>
+            <View style={styles.onlineHeader}>
+              <Text style={styles.section}>{t('pvp.matchmaking.onlineTitle')}</Text>
+              <Pressable
+                disabled={busy || onlineLoading}
+                onPress={() => void refreshOnline()}
+                style={[styles.secondaryButton, (busy || onlineLoading) && styles.disabled]}
+              >
+                <Text style={styles.secondaryButtonText}>{t('pvp.matchmaking.refreshOnline')}</Text>
+              </Pressable>
+            </View>
+            <Text style={styles.meta}>{t('pvp.matchmaking.onlineHint')}</Text>
+            {onlineLoading && online.length === 0 ? (
+              <ActivityIndicator color={colors.ember} style={{ marginTop: spacing.md }} />
+            ) : null}
+            {online.length === 0 && !onlineLoading ? (
+              <Text style={styles.empty}>{t('pvp.matchmaking.onlineEmpty')}</Text>
+            ) : null}
+            {online.map((opponent) => (
+              <Pressable
+                key={opponent.id}
+                disabled={busy}
+                onPress={() => void inviteByHandle(opponent.handle)}
+                style={({ pressed }) => [styles.onlineCard, busy && styles.disabled, pressed && styles.pressed]}
+              >
+                <View>
+                  <Text style={styles.cardTitle}>@{opponent.handle}</Text>
+                  <Text style={styles.meta}>{opponent.display_name ?? opponent.handle}</Text>
+                </View>
+                <Text style={styles.onlineLevel}>
+                  {t('pvp.matchmaking.onlineLevel', { level: opponent.level })}
+                </Text>
+              </Pressable>
+            ))}
+          </>
+        )}
 
         <Text style={styles.section}>{t('pvp.inbox.received')}</Text>
         {received.length === 0 ? <Text style={styles.empty}>{t('pvp.inbox.emptyReceived')}</Text> : null}
@@ -433,6 +582,36 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   secondaryButtonText: { color: colors.text, fontWeight: '700', textAlign: 'center' },
+  modeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.xl },
+  modeButton: {
+    borderColor: colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  modeButtonActive: { backgroundColor: colors.ember, borderColor: colors.ember },
+  modeButtonText: { color: colors.text, fontWeight: '700' },
+  modeButtonTextActive: { color: '#111' },
+  onlineHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    justifyContent: 'space-between',
+  },
+  onlineCard: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 14,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: spacing.md,
+    padding: spacing.md,
+  },
+  onlineLevel: { color: colors.ember, fontWeight: '800' },
   disabled: { opacity: 0.5 },
   pressed: { opacity: 0.85 },
   section: { color: colors.text, fontSize: 18, fontWeight: '700', marginTop: spacing.xl },
@@ -448,4 +627,18 @@ const styles = StyleSheet.create({
   cardTitle: { color: colors.text, fontWeight: '700' },
   meta: { color: colors.textMuted, fontSize: 12, marginTop: spacing.xs },
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  recordRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.md },
+  recordChip: {
+    borderRadius: 999,
+    borderWidth: 1,
+    fontSize: 11,
+    fontWeight: '800',
+    overflow: 'hidden',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+    textTransform: 'uppercase',
+  },
+  recordWin: { borderColor: 'rgba(52,211,153,0.4)', color: '#34d399' },
+  recordLoss: { borderColor: 'rgba(248,113,113,0.4)', color: '#f87171' },
+  recordForfeit: { borderColor: colors.border, color: colors.textMuted },
 })

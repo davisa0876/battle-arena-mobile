@@ -167,6 +167,16 @@ function BattleEligibility({ rules }: { rules: GameRules }) {
         <Text style={styles.bullet}>•</Text>
         <Text style={styles.pointText}>{t('gameRules.battle.pvp', { level: battle.pvp_min_trainer_level })}</Text>
       </View>
+      {battle.pvp_online_presence ? (
+        <View style={styles.point}>
+          <Text style={styles.bullet}>•</Text>
+          <Text style={styles.pointText}>
+            {battle.pvp_online_presence.requires_pvp_screen
+              ? t('gameRules.battle.pvpOnlineLobbyOnly')
+              : t('gameRules.battle.pvpOnlineAuthenticated')}
+          </Text>
+        </View>
+      ) : null}
       <Text style={[styles.notice, styles.tableGap]}>
         {battle.playable ? t('gameRules.battle.playable') : t('gameRules.battle.notPlayable')}
       </Text>

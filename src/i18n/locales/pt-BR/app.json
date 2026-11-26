@@ -86,6 +86,36 @@
       "forfeitCancel": "Continuar",
       "endReason": "Encerrado por: {{reason}}",
       "connectionInterrupted": "Conexao interrompida; reconectando. O temporizador pode continuar."
+    },
+    "record": {
+      "wins": "{{count}} vitorias",
+      "losses": "{{count}} derrotas",
+      "forfeits": "{{count}} desistencias"
+    },
+    "matchmaking": {
+      "inviteByHandle": "Enviar convite",
+      "findOnline": "Procurar oponente online",
+      "onlineTitle": "Oponentes online",
+      "onlineEmpty": "Nenhum oponente online agora. Treinadores elegiveis aparecem online enquanto estiverem logados em qualquer tela — ou convide pelo handle.",
+      "onlineHint": "Toque em um treinador para enviar um convite privado.",
+      "onlineLevel": "Nv. {{level}}",
+      "refreshOnline": "Atualizar lista"
+    },
+    "alert": {
+      "region": "Convites PvP recebidos",
+      "eyebrow": "Convite PvP",
+      "body": "@{{handle}} convidou voce para uma lobby privada.",
+      "openLobby": "Abrir lobby",
+      "acceptedEyebrow": "Convite aceito",
+      "acceptedBody": "@{{handle}} aceitou seu convite privado.",
+      "nextStepInvitee": "Aceite de qualquer tela — voce vai ao lobby PvP escolher a criatura e depois travar Ready.",
+      "nextStepHost": "Abra a lobby, escolha a criatura, trave Ready e entre na batalha.",
+      "chooseCreatures": "Escolher criaturas",
+      "declinedEyebrow": "Convite recusado",
+      "declinedBody": "@{{handle}} recusou seu convite privado.",
+      "declinedNext": "Voce pode convidar outro treinador.",
+      "sendAnother": "Enviar outro convite",
+      "dismiss": "Fechar"
     }
   },
   "home": {
@@ -393,6 +423,8 @@
     "battle": {
       "pve": "O PvE (batalhas solo) abre no nível de treinador {{level}}.",
       "pvp": "O PvP (batalhas contra outros treinadores) abre no nível de treinador {{level}}.",
+      "pvpOnlineAuthenticated": "Presença online no PvP: se você estiver logado e no nível de PvP, aparece online em qualquer tela — não precisa ficar no lobby de PvP.",
+      "pvpOnlineLobbyOnly": "Presença online no PvP: você só aparece online enquanto a tela do lobby de PvP estiver aberta.",
       "notPlayable": "As batalhas ainda não são jogáveis. Estes níveis descrevem a elegibilidade futura.",
       "playable": "As batalhas são jogáveis."
     },

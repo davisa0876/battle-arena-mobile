@@ -68,6 +68,11 @@ export interface GameRules {
   battle: {
     pve_min_trainer_level: number
     pvp_min_trainer_level: number
+    pvp_online_presence?: {
+      while_authenticated: boolean
+      requires_pvp_min_level: boolean
+      requires_pvp_screen: boolean
+    }
     rewards: {
       pve: BattleReward
       pvp: BattleReward

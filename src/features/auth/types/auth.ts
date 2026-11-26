@@ -36,6 +36,12 @@ export interface PveRecord {
   give_ups: number
 }
 
+export interface PvpRecord {
+  wins: number
+  losses: number
+  forfeits: number
+}
+
 export interface AuthUser {
   id: number
   email: string
@@ -45,6 +51,8 @@ export interface AuthUser {
   trainer: TrainerProgress | null
   /** Career PvE totals from /api/me. */
   pve_record?: PveRecord
+  /** Career private PvP totals from /api/me. */
+  pvp_record?: PvpRecord
   onboarding: {
     starter_selected: boolean
   }
