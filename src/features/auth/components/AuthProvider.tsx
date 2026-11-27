@@ -110,13 +110,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [])
 
   const signOut = useCallback(async () => {
+    // Drop local session first so PvpPresenceKeeper closes the WS immediately.
+    clearSession()
     try {
       await authApi.logout()
     } catch {
-      // The token is cleared locally regardless; a failed revoke must not trap the user.
+      // Already signed out locally; server presence clear may have failed.
     }
-
-    clearSession()
   }, [clearSession])
 
   const refreshUser = useCallback(async () => {
