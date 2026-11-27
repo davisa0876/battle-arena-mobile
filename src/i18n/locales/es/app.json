@@ -552,6 +552,11 @@
         "label": "Recuperar",
         "hint": "0 res. · +15 resistencia",
         "description": "Recupera 15 de resistencia en lugar de defenderte. Tomas el golpe, pero recargas para responder mejor."
+      },
+      "heal": {
+        "label": "Curar",
+        "hint": "25 res. · +20 HP",
+        "description": "Gasta 25 de resistencia para recuperar 20 de HP tras el golpe. Sigues recibiendo el daño completo."
       }
     },
     "log": {

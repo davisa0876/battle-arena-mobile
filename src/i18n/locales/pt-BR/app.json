@@ -193,7 +193,8 @@
         "endure": "Recebe o golpe com dano total (×{{multiplier}}). Sem custo de stamina.",
         "block": "Reduz o dano recebido para ×{{multiplier}}. Consome stamina.",
         "dodge": "{{chance}}% de chance de evitar o golpe por completo.",
-        "recover": "Recupera {{restore}} de stamina ao aceitar o golpe."
+        "recover": "Recupera {{restore}} de stamina ao aceitar o golpe.",
+        "heal": "Gasta stamina para recuperar {{restore}} de HP depois do golpe."
       }
     },
     "stats": {
@@ -571,6 +572,11 @@
         "label": "Recuperar",
         "hint": "0 stamina · +15 stamina",
         "description": "Recupera 15 de stamina em vez de se defender. Você toma o golpe normalmente, mas recarrega stamina para responder melhor."
+      },
+      "heal": {
+        "label": "Curar",
+        "hint": "25 stamina · +20 HP",
+        "description": "Gasta 25 de stamina para recuperar 20 de HP depois do golpe. O dano ainda é total."
       }
     },
     "log": {

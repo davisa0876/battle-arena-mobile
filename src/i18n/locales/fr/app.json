@@ -552,6 +552,11 @@
         "label": "Récupérer",
         "hint": "0 end. · +15 endurance",
         "description": "Récupérez 15 d'endurance au lieu de vous défendre. Vous prenez le coup, mais rechargez pour riposter."
+      },
+      "heal": {
+        "label": "Soigner",
+        "hint": "25 end. · +20 PV",
+        "description": "Dépensez 25 d'endurance pour récupérer 20 PV après le coup. Vous subissez toujours tous les dégâts."
       }
     },
     "log": {

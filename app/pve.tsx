@@ -31,6 +31,10 @@ const DEFENSE_TONES = {
     box: { backgroundColor: 'rgba(52,211,153,0.16)', borderColor: 'rgba(52,211,153,0.6)' },
     title: { color: '#34D399' },
   },
+  heal: {
+    box: { backgroundColor: 'rgba(251,113,133,0.16)', borderColor: 'rgba(251,113,133,0.6)' },
+    title: { color: '#FB7185' },
+  },
 } as const
 
 import { RequireAuth, useAuth } from '@/src/features/auth'
@@ -223,7 +227,7 @@ export default function PveScreen() {
   const [soundOn, setSoundOn] = useState(true)
   const [musicOn, setMusicOn] = useState(true)
   const [selectedMoveId, setSelectedMoveId] = useState<number | 'basic' | 'recover' | null>(null)
-  const [selectedDefense, setSelectedDefense] = useState<'endure' | 'block' | 'dodge' | 'recover'>('endure')
+  const [selectedDefense, setSelectedDefense] = useState<'endure' | 'block' | 'dodge' | 'recover' | 'heal'>('endure')
   const cancelledRef = useRef(false)
   const introBattleId = useRef<string | null>(null)
 
@@ -567,7 +571,12 @@ export default function PveScreen() {
 
                     return (
                       <>
-                        <View style={styles.grid}>
+                        <ScrollView
+                          horizontal
+                          showsHorizontalScrollIndicator={false}
+                          contentContainerStyle={styles.moveStrip}
+                          style={styles.moveStripViewport}
+                        >
                           {moves.map((move, index) => {
                             const tone = ATTACK_TONES[index % ATTACK_TONES.length]
                             const selected = selectedMoveId === move.id
@@ -576,9 +585,11 @@ export default function PveScreen() {
                                 key={String(move.id)}
                                 disabled={busy || !intro.controlsEnabled || !move.can_use || move.id == null}
                                 onPress={() => move.id != null && setSelectedMoveId(move.id)}
-                                style={[styles.action, tone.box, selected && styles.actionSelected]}
+                                style={[styles.moveCard, tone.box, selected && styles.actionSelected]}
                               >
-                                <Text style={[styles.actionTitle, tone.title]}>{move.name}</Text>
+                                <Text style={[styles.actionTitle, tone.title]} numberOfLines={1}>
+                                  {move.name}
+                                </Text>
                                 <Text style={styles.meta}>
                                   {t('pve.movePp', { pp: move.pp.current, ppMax: move.pp.max })}
                                 </Text>
@@ -588,39 +599,43 @@ export default function PveScreen() {
                               </Pressable>
                             )
                           })}
-                          {canRecoverSkip ? (
-                            <Pressable
-                              disabled={busy || !intro.controlsEnabled}
-                              onPress={() => setSelectedMoveId('recover')}
-                              style={[
-                                styles.action,
-                                DEFENSE_TONES.recover.box,
-                                selectedMoveId === 'recover' && styles.actionSelected,
-                              ]}
-                            >
-                              <Text style={[styles.actionTitle, DEFENSE_TONES.recover.title]}>
-                                {t('pve.actions.recoverSkip')}
-                              </Text>
-                              <Text style={styles.meta}>{t('pve.actions.recoverSkipHelp')}</Text>
-                            </Pressable>
-                          ) : null}
-                          {canBasicStrike ? (
-                            <Pressable
-                              disabled={busy || !intro.controlsEnabled}
-                              onPress={() => setSelectedMoveId('basic')}
-                              style={[
-                                styles.action,
-                                ATTACK_TONES[1].box,
-                                selectedMoveId === 'basic' && styles.actionSelected,
-                              ]}
-                            >
-                              <Text style={[styles.actionTitle, ATTACK_TONES[1].title]}>
-                                {t('pve.actions.basicStrike')}
-                              </Text>
-                              <Text style={styles.meta}>{t('pve.actions.basicStrikeHelp')}</Text>
-                            </Pressable>
-                          ) : null}
-                        </View>
+                        </ScrollView>
+                        {(canRecoverSkip || canBasicStrike) && (
+                          <View style={styles.grid}>
+                            {canRecoverSkip ? (
+                              <Pressable
+                                disabled={busy || !intro.controlsEnabled}
+                                onPress={() => setSelectedMoveId('recover')}
+                                style={[
+                                  styles.action,
+                                  DEFENSE_TONES.recover.box,
+                                  selectedMoveId === 'recover' && styles.actionSelected,
+                                ]}
+                              >
+                                <Text style={[styles.actionTitle, DEFENSE_TONES.recover.title]}>
+                                  {t('pve.actions.recoverSkip')}
+                                </Text>
+                                <Text style={styles.meta}>{t('pve.actions.recoverSkipHelp')}</Text>
+                              </Pressable>
+                            ) : null}
+                            {canBasicStrike ? (
+                              <Pressable
+                                disabled={busy || !intro.controlsEnabled}
+                                onPress={() => setSelectedMoveId('basic')}
+                                style={[
+                                  styles.action,
+                                  ATTACK_TONES[1].box,
+                                  selectedMoveId === 'basic' && styles.actionSelected,
+                                ]}
+                              >
+                                <Text style={[styles.actionTitle, ATTACK_TONES[1].title]}>
+                                  {t('pve.actions.basicStrike')}
+                                </Text>
+                                <Text style={styles.meta}>{t('pve.actions.basicStrikeHelp')}</Text>
+                              </Pressable>
+                            ) : null}
+                          </View>
+                        )}
                         {selectedMoveId === 'recover' ? (
                           <View style={styles.helpBox}>
                             <Text style={styles.helpTitle}>{t('pve.actions.recoverSkip')}</Text>
@@ -686,7 +701,7 @@ export default function PveScreen() {
               {battle.phase === 'awaiting_player_defense' && (
                 <View style={styles.actionBlock}>
                   <View style={styles.grid}>
-                    {(['endure', 'block', 'dodge', 'recover'] as const).map((defense) => {
+                    {(['endure', 'block', 'dodge', 'recover', 'heal'] as const).map((defense) => {
                       const tone = DEFENSE_TONES[defense]
                       const selected = selectedDefense === defense
                       return (
@@ -1016,6 +1031,22 @@ const styles = StyleSheet.create({
   },
   primaryText: { color: colors.background, fontWeight: '800' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  moveStripViewport: {
+    marginHorizontal: -2,
+  },
+  moveStrip: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    paddingVertical: 2,
+  },
+  moveCard: {
+    backgroundColor: colors.background,
+    borderColor: colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    padding: spacing.md,
+    width: 148,
+  },
   actionBlock: { gap: spacing.sm },
   action: {
     backgroundColor: colors.background,

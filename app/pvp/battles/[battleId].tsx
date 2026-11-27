@@ -33,7 +33,7 @@ import { colors } from '@/src/theme/colors'
 import { spacing } from '@/src/theme/spacing'
 
 const ARENA_BG = require('../../../assets/pve/arena-bg.jpg')
-const DEFENSES = ['endure', 'block', 'dodge', 'recover'] as const
+const DEFENSES = ['endure', 'block', 'dodge', 'recover', 'heal'] as const
 
 export default function PvpBattleScreen() {
   const { battleId = '' } = useLocalSearchParams<{ battleId: string }>()
@@ -290,24 +290,34 @@ export default function PvpBattleScreen() {
         </View>
       ) : attacking ? (
         <View style={styles.dock}>
-          {(battle.me?.moves ?? [])
-            .filter((m) => m.can_use && m.id != null)
-            .map((move) => (
-              <Pressable
-                key={move.id}
-                disabled={busy}
-                style={styles.primaryButton}
-                onPress={() =>
-                  void runMutation((key) =>
-                    submitPvpAttack(battle.id, { move_id: move.id!, expected_version: battle.version }, key),
-                  )
-                }
-              >
-                <Text style={styles.primaryButtonText}>
-                  {move.name} ({move.pp.current}/{move.pp.max})
-                </Text>
-              </Pressable>
-            ))}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.moveStrip}
+            style={styles.moveStripViewport}
+          >
+            {(battle.me?.moves ?? [])
+              .filter((m) => m.can_use && m.id != null)
+              .map((move) => (
+                <Pressable
+                  key={move.id}
+                  disabled={busy}
+                  style={styles.moveCard}
+                  onPress={() =>
+                    void runMutation((key) =>
+                      submitPvpAttack(battle.id, { move_id: move.id!, expected_version: battle.version }, key),
+                    )
+                  }
+                >
+                  <Text style={styles.primaryButtonText} numberOfLines={1}>
+                    {move.name}
+                  </Text>
+                  <Text style={styles.meta}>
+                    ({move.pp.current}/{move.pp.max})
+                  </Text>
+                </Pressable>
+              ))}
+          </ScrollView>
           {fallback.canBasicStrike ? (
             <Pressable
               disabled={busy}
@@ -422,6 +432,15 @@ const styles = StyleSheet.create({
   logTitle: { color: colors.text, fontWeight: '700', marginBottom: spacing.xs },
   logLine: { color: colors.textMuted, fontFamily: 'monospace', fontSize: 12, marginBottom: 4 },
   dock: { marginTop: spacing.md, gap: spacing.sm },
+  moveStripViewport: { marginHorizontal: -2 },
+  moveStrip: { flexDirection: 'row', gap: spacing.sm, paddingVertical: 2 },
+  moveCard: {
+    backgroundColor: colors.ember,
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    width: 148,
+  },
   result: { marginTop: spacing.md, gap: spacing.sm },
   xp: { color: '#fbbf24', fontWeight: '700' },
   primaryButton: { backgroundColor: colors.ember, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14 },
