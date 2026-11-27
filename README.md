@@ -32,6 +32,10 @@ Set `EXPO_PUBLIC_API_BASE_URL`:
 - iOS simulator: `http://localhost:8000`
 - Physical device: `http://<LAN-IP>:8000` (infra `API_BIND_ADDRESS=0.0.0.0`; never expose Postgres/Redis)
 
+The backend is the single Compose environment in `battle-arena-infra` (`docker compose up -d --build`). Its API (`:8000`) and WebSocket (`:3001/ws`) endpoints are served by a local API Gateway emulator; the client contract is unchanged.
+
+The WebSocket URL comes from the API. For an Android emulator set `PUBLIC_WS_URL=ws://10.0.2.2:3001/ws` in `battle-arena-infra/.env`; for a physical device use the LAN IP and also set `REALTIME_BIND_ADDRESS=0.0.0.0`.
+
 ## Commands
 
 ```bash
