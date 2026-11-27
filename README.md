@@ -2,6 +2,19 @@
 
 Expo React Native client for Battle Arena.
 
+## Running the project locally
+
+The [`battle-arena-infra`](https://github.com/davisa0876/battle-arena-infra) repository is responsible for creating the local environment. Use it to run the whole project (database, Redis, storage, email, API, realtime and web) with Docker.
+
+Clone it next to this repository and the other `battle-arena-*` repositories, then:
+
+```bash
+cd battle-arena-infra
+docker compose up -d --build
+```
+
+First-time setup, environment files, URLs and troubleshooting are in the [infra README](https://github.com/davisa0876/battle-arena-infra#readme). The Expo app itself is not containerized: run it on your machine (see below) against that backend.
+
 ## Stack
 
 - Expo SDK 54 + Expo Router
